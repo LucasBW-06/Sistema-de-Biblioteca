@@ -5,13 +5,12 @@ CREATE VIEW v_livros_disponiveis AS
 		 WHERE l.estado = "Disponível";
          
 CREATE VIEW v_historico_usuario AS
-	SELECT u.nome, l.titulo, e.data_emprestimo FROM emprestimo e
+	SELECT u.id, u.nome, l.titulo, e.data_emprestimo FROM emprestimo e
 		JOIN livro l ON e.livro_id = l.id
-        JOIN usuario u ON e.usuario_id = u.id
-        WHERE u.id = 1;
+        JOIN usuario u ON e.usuario_id = u.id;
 
 CREATE VIEW v_emprestimos_vencidos AS
-	SELECT u.nome, l.titulo, e.data_devolucao FROM emprestimos e
+	SELECT u.nome, l.titulo, e.data_devolucao FROM emprestimo e
 		JOIN livro l ON e.livro_id = l.id
         JOIN usuario u ON e.usuario_id = u.id
         WHERE e.data_devolucao < CURRENT_DATE;
