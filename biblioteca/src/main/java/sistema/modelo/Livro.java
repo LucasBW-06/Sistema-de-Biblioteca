@@ -5,9 +5,11 @@ public class Livro {
     protected String titulo;
     protected String autor;
     protected String editora;
+    protected String genero;
     protected int ano;
     protected String isbn;
     protected String codigo;
+    protected String estado;
 
     public void setId(long id) {
         this.id = id;
@@ -41,6 +43,14 @@ public class Livro {
         return editora;
     }
 
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
     public void setAno(int ano) {
         this.ano = ano;
     }
@@ -63,5 +73,13 @@ public class Livro {
 
     public String getCodigo() {
         return codigo;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getEstado() {
+        return estado;
     }
 }
