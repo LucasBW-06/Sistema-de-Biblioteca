@@ -83,14 +83,19 @@ public class UsuarioDao {
 
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
 
+        stmt.setLong(1, id);
+
         ResultSet rs = stmt.executeQuery();
         Usuario usuario = new Usuario();
-        usuario.setId(rs.getLong("id"));
-        usuario.setNome(rs.getString("nome"));
-        usuario.setEmail(rs.getString("email"));
-        usuario.setCpf(rs.getString("cpf"));
-        usuario.setTelefone(rs.getString("telefone"));
 
+        if (rs.next()) {
+            usuario.setId(id);
+            usuario.setNome(rs.getString("nome"));
+            usuario.setEmail(rs.getString("email"));
+            usuario.setCpf(rs.getString("cpf"));
+            usuario.setTelefone(rs.getString("telefone"));
+        }
+        
         rs.close();
         stmt.close();
         return usuario;

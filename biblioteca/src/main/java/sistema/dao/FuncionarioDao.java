@@ -80,12 +80,17 @@ public class FuncionarioDao {
 
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
 
+        stmt.setLong(1, id);
+
         ResultSet rs = stmt.executeQuery();
         Funcionario funcionario = new Funcionario();
-        funcionario.setId(rs.getLong("id"));
-        funcionario.setNome(rs.getString("nome"));
-        funcionario.setLogin(rs.getString("login"));
-        funcionario.setSenha(rs.getString("senha"));
+
+        if (rs.next()) {
+            funcionario.setId(rs.getLong("id"));
+            funcionario.setNome(rs.getString("nome"));
+            funcionario.setLogin(rs.getString("login"));
+            funcionario.setSenha(rs.getString("senha"));
+        }
 
         rs.close();
         stmt.close();

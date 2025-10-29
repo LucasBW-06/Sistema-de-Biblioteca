@@ -94,18 +94,23 @@ public class LivroDao {
 
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
 
+        stmt.setLong(1, id);
+
         ResultSet rs = stmt.executeQuery();
         Livro livro = new Livro();
-        livro.setId(rs.getLong("id"));
-        livro.setTitulo(rs.getString("titulo"));
-        livro.setAutor(rs.getString("autor"));
-        livro.setEditora(rs.getString("editora"));
-        livro.setGenero(rs.getString("genero"));
-        livro.setAno(rs.getInt("ano"));
-        livro.setIsbn(rs.getString("isbn"));
-        livro.setCodigo(rs.getString("codigo"));
-        livro.setEstado(rs.getString("estado"));
-
+        
+        if (rs.next()) {
+            livro.setId(rs.getLong("id"));
+            livro.setTitulo(rs.getString("titulo"));
+            livro.setAutor(rs.getString("autor"));
+            livro.setEditora(rs.getString("editora"));
+            livro.setGenero(rs.getString("genero"));
+            livro.setAno(rs.getInt("ano"));
+            livro.setIsbn(rs.getString("isbn"));
+            livro.setCodigo(rs.getString("codigo"));
+            livro.setEstado(rs.getString("estado"));
+        }
+        
         rs.close();
         stmt.close();
         return livro;
