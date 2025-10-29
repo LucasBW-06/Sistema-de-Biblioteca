@@ -8,7 +8,7 @@ import sistema.modelo.Usuario;
 
 public class Main {
     public static void main(String[] args) {
-    try {
+            try {
             UsuarioDao dao = new UsuarioDao();
 
             // Inserir um usuário

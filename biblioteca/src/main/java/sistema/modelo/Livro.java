@@ -9,7 +9,6 @@ public class Livro {
     protected int ano;
     protected String isbn;
     protected String codigo;
-    protected String estado;
 
     public void setId(long id) {
         this.id = id;
@@ -73,13 +72,5 @@ public class Livro {
 
     public String getCodigo() {
         return codigo;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public String getEstado() {
-        return estado;
     }
 }

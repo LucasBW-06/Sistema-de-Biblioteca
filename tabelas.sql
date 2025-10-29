@@ -10,8 +10,7 @@ CREATE TABLE livro (
     genero VARCHAR(50),
     ano INT,
     isbn VARCHAR(13),
-    codigo VARCHAR(20) UNIQUE NOT NULL,
-    estado VARCHAR(20)
+    codigo VARCHAR(20) UNIQUE NOT NULL
 );
 
 CREATE TABLE usuario (
@@ -29,7 +28,9 @@ CREATE TABLE emprestimo (
     usuario_id INT NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES usuario(id),
     data_emprestimo DATE NOT NULL,
-    data_devolucao DATE
+    data_devolucao DATE NOT NULL,
+    data_devolvido DATE,
+    estado ENUM("EMPRESTADO", "DEVOLVIDO", "ATRASADO") DEFAULT "EMPRESTADO"
 );
 
 CREATE TABLE funcionario (

@@ -1,17 +1,51 @@
 USE biblioteca;
 
 DELIMITER $$
-CREATE PROCEDURE p_registrar_emprestimo(IN p_livro_id INT, IN p_usuario_id INT)
+CREATE PROCEDURE p_registrar_emprestimo(
+		IN p_livro_id INT, 
+        IN p_usuario_id INT,
+        IN p_data_emprestimo DATE, 
+        IN p_data_devolucao DATE
+	)
 	BEGIN
+        DECLARE v_existe_emprestimo INT;
+        
+		IF p_data_emprestimo IS NULL THEN
+			SET p_data_emprestimo = CURRENT_DATE;
+		END IF;
+        IF p_data_devolucao IS NULL THEN
+			SET p_data_devolucao = DATE_ADD(p_data_emprestimo, INTERVAL 10 DAY);
+		END IF;
+        
+		IF p_data_devolucao < p_data_emprestimo OR p_data_devolucao = p_data_emprestimo THEN
+			SIGNAL SQLSTATE "45000"
+            SET MESSAGE_TEXT = "ERRO: data de emprestimo e data de devolução com valores não permitidos";
+		END IF;
+        
+        SELECT COUNT(*) INTO v_existe_emprestimo FROM emprestimo
+			WHERE livro_id = p_livro_id AND estado = "EMPRESTADO";
+		
+        IF v_existe_emprestimo > 0 THEN
+			SIGNAL SQLSTATE "45000"
+			SET MESSAGE_TEXT = "ERRO: Livro já está emprestado";
+		END IF;
+		
 		INSERT INTO emprestimo (livro_id, usuario_id, data_emprestimo, data_devolucao) VALUES
-        (p_livro_id, p_usuario_id, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 10 DAY));
+        (p_livro_id, p_usuario_id, p_data_emprestimo, p_data_devolucao);
 	END $$
 DELIMITER ;
 
 DELIMITER $$
-CREATE PROCEDURE p_registrar_devolucao(IN p_livro_id INT)
+CREATE PROCEDURE p_registrar_devolucao(
+		IN p_livro_id INT,
+        IN p_data_devolvido DATE
+	)
 	BEGIN
-		UPDATE livro SET estado = "Disponível"
-        WHERE id = p_livro_id;
+		IF p_data_devolvido IS NULL THEN
+			SET p_data_devolvido = CURRENT_DATE;
+		END IF;
+    
+		UPDATE emprestimo SET estado = "DEVOLVIDO" AND data_devolvido = p_data_devolvido
+			WHERE livro_id = p_livro_id AND (estado = "EMPRESTADO" OR estado = "ATRASADO");
 	END $$
 DELIMITER ;
