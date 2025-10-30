@@ -1,4 +1,4 @@
-package sistema.modelo;
+package sistema.model;
 
 public class Funcionario {
     protected long id;

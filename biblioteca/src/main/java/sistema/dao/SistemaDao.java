@@ -7,7 +7,7 @@ import java.sql.Types;
 import java.time.LocalDate;
 
 import sistema.Conexao;
-import sistema.modelo.Emprestimo;
+import sistema.model.Emprestimo;
 
 public class SistemaDao {
     
