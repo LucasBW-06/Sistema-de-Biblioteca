@@ -1,3 +1,4 @@
+DROP DATABASE biblioteca;
 CREATE DATABASE biblioteca;
 
 USE biblioteca;

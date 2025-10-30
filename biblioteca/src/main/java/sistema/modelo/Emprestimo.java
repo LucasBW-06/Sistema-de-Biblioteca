@@ -8,6 +8,7 @@ public class Emprestimo {
     protected Usuario usuario;
     protected LocalDate dataEmprestimo;
     protected LocalDate dataDevolucao;
+    protected LocalDate dataDevolvido;
     protected String estado;
 
     public void setId(long id) {
@@ -48,6 +49,14 @@ public class Emprestimo {
 
     public LocalDate getDataDevolucao() {
         return dataDevolucao;
+    }
+
+    public void setDataDevolvido(LocalDate dataDevolvido) {
+        this.dataDevolvido = dataDevolvido;
+    }
+
+    public LocalDate getDataDevolvido() {
+        return dataDevolvido;
     }
     
     public void setEstado(String estado) {

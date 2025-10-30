@@ -17,7 +17,7 @@ public class LivroDao {
     }
 
     public void inserirLivro(Livro livro) throws SQLException {
-        String sql = "INSERT INTO Livro (titulo, autor, editora, genero, ano, isbn, codigo, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Livro (titulo, autor, editora, genero, ano, isbn, codigo) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
         stmt.setString(1, livro.getTitulo());
@@ -27,7 +27,6 @@ public class LivroDao {
         stmt.setInt(5, livro.getAno());
         stmt.setString(6, livro.getIsbn());
         stmt.setString(7, livro.getCodigo());
-        stmt.setString(8, livro.getEstado());
 
         stmt.execute();
         stmt.close();
@@ -50,7 +49,6 @@ public class LivroDao {
             temp.setAno(rs.getInt("ano"));
             temp.setIsbn(rs.getString("isbn"));
             temp.setCodigo(rs.getString("codigo"));
-            temp.setEstado(rs.getString("estado"));
             lista.add(temp);
         }
 
@@ -60,7 +58,7 @@ public class LivroDao {
     }
 
     public void modificarLivro(Livro livro) throws SQLException {
-        String sql = "UPDATE livro SET titulo=?, autor=?, editora=?, genero=?, ano=?, isbn=?, codigo=?, estado=? WHERE id=?";
+        String sql = "UPDATE livro SET titulo=?, autor=?, editora=?, genero=?, ano=?, isbn=?, codigo=? WHERE id=?";
 
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
 
@@ -71,7 +69,6 @@ public class LivroDao {
         stmt.setInt(5, livro.getAno());
         stmt.setString(6, livro.getIsbn());
         stmt.setString(7, livro.getCodigo());
-        stmt.setString(8, livro.getEstado());
         stmt.setLong(9, livro.getId());
 
         stmt.execute();
@@ -108,7 +105,6 @@ public class LivroDao {
             livro.setAno(rs.getInt("ano"));
             livro.setIsbn(rs.getString("isbn"));
             livro.setCodigo(rs.getString("codigo"));
-            livro.setEstado(rs.getString("estado"));
         }
         
         rs.close();
