@@ -1,4 +1,4 @@
-package sistema.modelo;
+package sistema.model;
 
 public class Usuario {
     protected long id;
