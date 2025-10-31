@@ -7,9 +7,9 @@ import java.util.List;
 import sistema.dao.EmprestimoDao;
 import sistema.dao.LivroDao;
 import sistema.dao.UsuarioDao;
-import sistema.modelo.Emprestimo;
-import sistema.modelo.Livro;
-import sistema.modelo.Usuario;
+import sistema.model.Emprestimo;
+import sistema.model.Livro;
+import sistema.model.Usuario;
 
 public class Main {
     public static void main(String[] args) {

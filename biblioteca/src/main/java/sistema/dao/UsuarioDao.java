@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import sistema.Conexao;
-import sistema.modelo.Usuario;
+import sistema.model.Usuario;
 
 public class UsuarioDao {
     
