@@ -8,6 +8,7 @@ import sistema.model.Livro;
 
 import java.awt.*;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,15 @@ public class TelaBiblioteca extends JFrame {
         painelBotoes.add(btnCadastrarUsuario);
         painelBotoes.add(btnRegistrarLivro);
         painelBotoes.add(btnEmprestarLivro);
+
+        btnCadastrarUsuario.addActionListener(e -> {
+            try {
+                new CadastrarUsuario().setVisible(true);
+            } catch (SQLException | ParseException e1) {
+                e1.printStackTrace();
+            }
+            dispose();
+        });
 
         LivroDao daoL = new LivroDao();
         List<Livro> listaLivros = new ArrayList<>();

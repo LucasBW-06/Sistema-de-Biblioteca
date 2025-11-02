@@ -5,9 +5,9 @@ import java.awt.*;
 
 import java.sql.SQLException;
 
-public class Main extends JFrame {
-
-    public Main() throws SQLException {
+public class Inicio extends JFrame {
+    
+    public Inicio() throws SQLException {
         setTitle("Sistema de Biblioteca");
         setSize(500, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,15 +34,5 @@ public class Main extends JFrame {
         painel.add(btnEntrar, BorderLayout.SOUTH);
 
         add(painel);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                new Main().setVisible(true);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
     }
 }
