@@ -26,10 +26,6 @@ public class TelaBiblioteca extends JFrame {
         JButton btnRegistrarLivro = new JButton("Registrar Livro");
         JButton btnEmprestarLivro = new JButton("Emprestar Livro");
 
-        painelBotoes.add(btnCadastrarUsuario);
-        painelBotoes.add(btnRegistrarLivro);
-        painelBotoes.add(btnEmprestarLivro);
-
         btnCadastrarUsuario.addActionListener(e -> {
             try {
                 new CadastrarUsuario().setVisible(true);
@@ -38,6 +34,10 @@ public class TelaBiblioteca extends JFrame {
             }
             dispose();
         });
+
+        painelBotoes.add(btnCadastrarUsuario);
+        painelBotoes.add(btnRegistrarLivro);
+        painelBotoes.add(btnEmprestarLivro);
 
         LivroDao daoL = new LivroDao();
         List<Livro> listaLivros = new ArrayList<>();
