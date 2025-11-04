@@ -35,6 +35,15 @@ public class TelaBiblioteca extends JFrame {
             dispose();
         });
 
+        btnRegistrarLivro.addActionListener(e -> {
+            try {
+                new RegistrarLivro().setVisible(true);
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            dispose();
+        });
+
         painelBotoes.add(btnCadastrarUsuario);
         painelBotoes.add(btnRegistrarLivro);
         painelBotoes.add(btnEmprestarLivro);
