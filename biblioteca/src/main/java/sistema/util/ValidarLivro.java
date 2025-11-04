@@ -9,6 +9,26 @@ import sistema.model.Livro;
 
 public class ValidarLivro {
     public static void validar(Livro l) throws IllegalArgumentException, SQLException {
+        if (l.getTitulo() == null || l.getTitulo().isEmpty()) {
+            throw new IllegalArgumentException("Título inválido!");
+        }
+
+        if (l.getAutor() == null || l.getAutor().isEmpty()) {
+            throw new IllegalArgumentException("Autor inválido!");
+        }
+
+        if (l.getEditora() == null || l.getEditora().isEmpty()) {
+            throw new IllegalArgumentException("Editora inválido!");
+        }
+
+        if (l.getGenero() == null || l.getGenero().isEmpty()) {
+            throw new IllegalArgumentException("Gênero inválido!");
+        }
+
+        if (l.getCodigo() == null || l.getCodigo().isEmpty()) {
+            throw new IllegalArgumentException("Código inválido!");
+        }
+        
         LivroDao daoL = new LivroDao();
         List<Livro> livros = new ArrayList<Livro>();
         livros = daoL.getListaLivro();

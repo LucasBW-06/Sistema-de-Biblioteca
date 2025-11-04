@@ -132,9 +132,9 @@ public class CadastrarUsuario extends JFrame {
         btnCadastrar.addActionListener(e -> {
             try {
                 String nome = campoNome.getText();
-                String cpf = campoCpf.getText();
+                String cpf = campoCpf.getText().replaceAll("[\\.\\-]", "");
                 String email = campoEmail.getText();
-                String telefone = campoTelefone.getText();
+                String telefone = campoTelefone.getText().replaceAll("[\\(\\)\\-\\s+]", "");
 
                 Usuario u = new Usuario();
                 u.setNome(nome);

@@ -8,6 +8,9 @@ public class ValidarUsuario {
             throw new IllegalArgumentException("Nome inválido!");
         }
         if (u.getCpf() == null || u.getCpf().length() != 11 || !u.getCpf().matches("\\d+")) {
+            System.out.println(u.getCpf());
+            System.out.println(u.getCpf().length());
+            System.out.println(u.getCpf().matches("\\d+"));
             throw new IllegalArgumentException("CPF inválido!");
         } else {
             String[] invalidos = {
@@ -48,6 +51,9 @@ public class ValidarUsuario {
             throw new IllegalArgumentException("Email inválido!");
         }
         if (u.getTelefone() == null || u.getTelefone().length() != 11 || !u.getTelefone().matches("\\d+")) {
+            System.out.println(u.getTelefone());
+            System.out.println(u.getTelefone().length());
+            System.out.println(u.getTelefone().matches("\\d+"));
             throw new IllegalArgumentException("Telefone inválido!");
         }
     }
