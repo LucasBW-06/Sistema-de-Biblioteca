@@ -19,6 +19,8 @@ public class CadastrarUsuario extends JFrame {
     private JTextField campoEmail;
     private JFormattedTextField campoTelefone;
 
+    private Usuario usuario;
+
     public CadastrarUsuario() throws SQLException, ParseException {
         setTitle("Sistema de Biblioteca - Cadastro de Usuário");
         setSize(500, 350);
@@ -129,41 +131,44 @@ public class CadastrarUsuario extends JFrame {
         add(formPainel);
 
         // Ações dos botões
-        btnCadastrar.addActionListener(e -> {
-            try {
-                String nome = campoNome.getText();
-                String cpf = campoCpf.getText().replaceAll("[\\.\\-]", "");
-                String email = campoEmail.getText();
-                String telefone = campoTelefone.getText().replaceAll("[\\(\\)\\-\\s+]", "");
+        btnCadastrar.addActionListener(e -> cadastrarUsuario());
 
-                Usuario u = new Usuario();
-                u.setNome(nome);
-                u.setCpf(cpf);
-                u.setEmail(email);
-                u.setTelefone(telefone);
+        btnRetornar.addActionListener(e -> retornar());
+    }
 
-                ValidarUsuario.validar(u);
+    public void cadastrarUsuario() {
+        try {
+            String nome = campoNome.getText();
+            String cpf = campoCpf.getText().replaceAll("[\\.\\-]", "");
+            String email = campoEmail.getText();
+            String telefone = campoTelefone.getText().replaceAll("[\\(\\)\\-\\s+]", "");
 
-                UsuarioDao daoU = new UsuarioDao();
-                daoU.inserirUsuario(u);
+            usuario.setNome(nome);
+            usuario.setCpf(cpf);
+            usuario.setEmail(email);
+            usuario.setTelefone(telefone);
 
-                JOptionPane.showMessageDialog(this, "Usuário cadastrado com sucesso!");
-                new TelaBiblioteca().setVisible(true);
-                dispose();
-            } catch (IllegalArgumentException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro de validação", JOptionPane.WARNING_MESSAGE);
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, "Erro ao cadastrar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            }
-        });
+            ValidarUsuario.validar(usuario);
 
-        btnRetornar.addActionListener(e -> {
-            try {
-                new TelaBiblioteca().setVisible(true);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+            UsuarioDao daoU = new UsuarioDao();
+            daoU.inserirUsuario(usuario);
+
+            JOptionPane.showMessageDialog(this, "Usuário cadastrado com sucesso!");
+            new TelaBiblioteca().setVisible(true);
             dispose();
-        });
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro de validação", JOptionPane.WARNING_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void retornar() {
+        try {
+            new TelaBiblioteca().setVisible(true);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        dispose();
     }
 }

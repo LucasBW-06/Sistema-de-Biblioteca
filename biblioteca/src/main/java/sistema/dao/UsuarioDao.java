@@ -52,6 +52,80 @@ public class UsuarioDao {
         return lista;
     }
 
+    public List<Usuario> getListaUsuario(String nome) throws SQLException {
+        String sql = "SELECT * FROM usuario WHERE nome LIKE ?";
+        
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+
+        stmt.setString(1, "%" + nome + "%");
+
+        ResultSet rs = stmt.executeQuery();
+        List<Usuario> lista = new ArrayList<Usuario>();
+
+        while (rs.next()) {
+            Usuario temp = new Usuario();
+            temp.setId(rs.getLong("id"));
+            temp.setNome(rs.getString("nome"));
+            temp.setEmail(rs.getString("email"));
+            temp.setCpf(rs.getString("cpf"));
+            temp.setTelefone(rs.getString("telefone"));
+            lista.add(temp);
+        }
+
+        rs.close();
+        stmt.close();
+        return lista;
+    }
+
+    public List<Usuario> getListaUsuario(String nome, String cpf) throws SQLException {
+        String sql = "SELECT * FROM usuario WHERE nome LIKE ? AND cpf LIKE ?";
+        
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+
+        stmt.setString(1, "%" + nome + "%");
+        stmt.setString(2, "%" + cpf + "%");
+
+        ResultSet rs = stmt.executeQuery();
+        List<Usuario> lista = new ArrayList<Usuario>();
+
+        while (rs.next()) {
+            Usuario temp = new Usuario();
+            temp.setId(rs.getLong("id"));
+            temp.setNome(rs.getString("nome"));
+            temp.setEmail(rs.getString("email"));
+            temp.setCpf(rs.getString("cpf"));
+            temp.setTelefone(rs.getString("telefone"));
+            lista.add(temp);
+        }
+
+        rs.close();
+        stmt.close();
+        return lista;
+    }
+
+    public List<Usuario> getListaUsuarioVencido() throws SQLException {
+        String sql = "SELECT * FROM v_emprestimos_vencidos";
+        
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+
+        ResultSet rs = stmt.executeQuery();
+        List<Usuario> lista = new ArrayList<Usuario>();
+
+        while (rs.next()) {
+            Usuario temp = new Usuario();
+            temp.setId(rs.getLong("id"));
+            temp.setNome(rs.getString("nome"));
+            temp.setEmail(rs.getString("email"));
+            temp.setCpf(rs.getString("cpf"));
+            temp.setTelefone(rs.getString("telefone"));
+            lista.add(temp);
+        }
+
+        rs.close();
+        stmt.close();
+        return lista;
+    }
+
     public void modificarUsuario(Usuario usuario) throws SQLException {
         String sql = "UPDATE usuario SET nome=?, email=?, cpf=?, telefone=? WHERE id=?";
 

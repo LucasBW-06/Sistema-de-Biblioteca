@@ -1,8 +1,11 @@
 USE biblioteca;
 
 CREATE VIEW v_livros_disponiveis AS
-	SELECT l.titulo, l.autor, l.editora FROM livro l
-		 WHERE l.estado = "Disponível";
+	SELECT * FROM livro l
+		WHERE l.id NOT IN (
+			SELECT e.livro_id FROM emprestimo e
+				WHERE e.estado IN ("EMPRESTADO", "ATRASADO")
+        );
          
 CREATE VIEW v_historico_usuario AS
 	SELECT u.id, u.nome, l.titulo, e.data_emprestimo FROM emprestimo e
@@ -10,7 +13,6 @@ CREATE VIEW v_historico_usuario AS
         JOIN usuario u ON e.usuario_id = u.id;
 
 CREATE VIEW v_emprestimos_vencidos AS
-	SELECT u.nome, l.titulo, e.data_devolucao FROM emprestimo e
-		JOIN livro l ON e.livro_id = l.id
+	SELECT u.* FROM emprestimo e
         JOIN usuario u ON e.usuario_id = u.id
-        WHERE e.data_devolucao < CURRENT_DATE;
+        WHERE e.estado = "ATRASADO";

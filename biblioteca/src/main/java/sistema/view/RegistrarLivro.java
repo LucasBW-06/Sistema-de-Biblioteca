@@ -20,6 +20,8 @@ public class RegistrarLivro extends JFrame {
     private JTextField campoIsbn;
     private JTextField campoCodigo;
 
+    private Livro livro;
+
     public RegistrarLivro() throws SQLException {
         setTitle("Sistema de Biblioteca - Registrar Livro");
         setSize(500, 350);
@@ -162,45 +164,48 @@ public class RegistrarLivro extends JFrame {
         add(formPainel);
 
          // Ações dos botões
-        btnRegistrar.addActionListener(e -> {
-            try {
-                String titulo = campoTitulo.getText();
-                String autor = campoAutor.getText();
-                String editora = campoEditora.getText();
-                String genero = campoGenero.getText();
-                String isbn = campoIsbn.getText();
-                String codigo = campoCodigo.getText();
+        btnRegistrar.addActionListener(e -> registrarLivro());
 
-                Livro l = new Livro();
-                l.setTitulo(titulo);
-                l.setAutor(autor);
-                l.setEditora(editora);
-                l.setGenero(genero);
-                l.setIsbn(isbn);
-                l.setCodigo(codigo);
+        btnRetornar.addActionListener(e -> retornar());
+    }
 
-                ValidarLivro.validar(l);
+    public void registrarLivro() {
+        try {
+            String titulo = campoTitulo.getText();
+            String autor = campoAutor.getText();
+            String editora = campoEditora.getText();
+            String genero = campoGenero.getText();
+            String isbn = campoIsbn.getText();
+            String codigo = campoCodigo.getText();
 
-                LivroDao daoL = new LivroDao();
-                daoL.inserirLivro(l);
+            livro.setTitulo(titulo);
+            livro.setAutor(autor);
+            livro.setEditora(editora);
+            livro.setGenero(genero);
+            livro.setIsbn(isbn);
+            livro.setCodigo(codigo);
 
-                JOptionPane.showMessageDialog(this, "Livro registrado com sucesso!");
-                new TelaBiblioteca().setVisible(true);
-                dispose();
-            } catch (IllegalArgumentException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro de validação", JOptionPane.WARNING_MESSAGE);
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, "Erro ao registrar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            }
-        });
+            ValidarLivro.validar(livro);
 
-        btnRetornar.addActionListener(e -> {
-            try {
-                new TelaBiblioteca().setVisible(true);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+            LivroDao daoL = new LivroDao();
+            daoL.inserirLivro(livro);
+
+            JOptionPane.showMessageDialog(this, "Livro registrado com sucesso!");
+            new TelaBiblioteca().setVisible(true);
             dispose();
-        });
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro de validação", JOptionPane.WARNING_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao registrar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void retornar() {
+        try {
+            new TelaBiblioteca().setVisible(true);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        dispose();
     }
 }

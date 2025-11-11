@@ -26,23 +26,9 @@ public class TelaBiblioteca extends JFrame {
         JButton btnRegistrarLivro = new JButton("Registrar Livro");
         JButton btnEmprestarLivro = new JButton("Emprestar Livro");
 
-        btnCadastrarUsuario.addActionListener(e -> {
-            try {
-                new CadastrarUsuario().setVisible(true);
-            } catch (SQLException | ParseException e1) {
-                e1.printStackTrace();
-            }
-            dispose();
-        });
-
-        btnRegistrarLivro.addActionListener(e -> {
-            try {
-                new RegistrarLivro().setVisible(true);
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-            dispose();
-        });
+        btnCadastrarUsuario.addActionListener(e -> cadastrarUsuario());
+        btnRegistrarLivro.addActionListener(e -> registrarLivro());
+        btnEmprestarLivro.addActionListener(e -> registrarEmprestimo());
 
         painelBotoes.add(btnCadastrarUsuario);
         painelBotoes.add(btnRegistrarLivro);
@@ -67,5 +53,32 @@ public class TelaBiblioteca extends JFrame {
         painel.add(scroll, BorderLayout.CENTER);
 
         add(painel);
+    }
+
+    public void cadastrarUsuario() {
+        try {
+            new CadastrarUsuario().setVisible(true);
+        } catch (SQLException | ParseException e1) {
+            e1.printStackTrace();
+        }
+        dispose();
+    }
+
+    public void registrarLivro() {
+        try {
+            new RegistrarLivro().setVisible(true);
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        dispose();
+    }
+
+    public void registrarEmprestimo() {
+        try {
+            new RegistrarEmprestimo().setVisible(true);
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        dispose();
     }
 }
