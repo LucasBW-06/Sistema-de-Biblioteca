@@ -76,7 +76,7 @@ public class BuscarLivroDialog extends JDialog {
         try {
             String titulo = campoTitulo.getText();
             String codigo = campoCodigo.getText();
-            List<Livro> livros = new LivroDao().getListaLivro(titulo, codigo);
+            List<Livro> livros = new LivroDao().getListaLivroDisponiveis(titulo, codigo);
 
             DefaultTableModel model = (DefaultTableModel) tabela.getModel();
             model.setRowCount(0);

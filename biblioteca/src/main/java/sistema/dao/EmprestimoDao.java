@@ -153,12 +153,12 @@ public class EmprestimoDao {
         stmt.close();
     }
 
-    public void registrarDevolucao(long livroId, int ano, int mes, int dia)throws SQLException {
+    public void registrarDevolucao(long livroId, LocalDate dataDevolvido)throws SQLException {
         String sql = "CALL p_registrar_devolucao(?, ?)";
 
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
         stmt.setLong(1, livroId);
-        stmt.setDate(2, java.sql.Date.valueOf(LocalDate.of(ano, mes, dia)));
+        stmt.setDate(2, java.sql.Date.valueOf(dataDevolvido));
 
         stmt.execute();
         stmt.close();

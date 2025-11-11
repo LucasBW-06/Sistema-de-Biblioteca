@@ -139,6 +139,35 @@ public class LivroDao {
         return lista;
     }
 
+    public List<Livro> getListaLivroDisponiveis(String titulo, String codigo) throws SQLException {
+        String sql = "SELECT * FROM v_livros_disponiveis WHERE titulo LIKE ? AND codigo LIKE ?";
+        
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+
+        stmt.setString(1, "%" + titulo + "%");
+        stmt.setString(2, "%" + codigo + "%");
+
+        ResultSet rs = stmt.executeQuery();
+        List<Livro> lista = new ArrayList<Livro>();
+
+        while (rs.next()) {
+            Livro temp = new Livro();
+            temp.setId(rs.getLong("id"));
+            temp.setTitulo(rs.getString("titulo"));
+            temp.setAutor(rs.getString("autor"));
+            temp.setEditora(rs.getString("editora"));
+            temp.setGenero(rs.getString("genero"));
+            temp.setAno(rs.getInt("ano"));
+            temp.setIsbn(rs.getString("isbn"));
+            temp.setCodigo(rs.getString("codigo"));
+            lista.add(temp);
+        }
+
+        rs.close();
+        stmt.close();
+        return lista;
+    }
+
     public void modificarLivro(Livro livro) throws SQLException {
         String sql = "UPDATE livro SET titulo=?, autor=?, editora=?, genero=?, ano=?, isbn=?, codigo=? WHERE id=?";
 

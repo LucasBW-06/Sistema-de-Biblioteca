@@ -103,8 +103,34 @@ public class UsuarioDao {
         return lista;
     }
 
+    public List<Usuario> getListaUsuarioVencido(String nome, String cpf) throws SQLException {
+        String sql = "SELECT * FROM v_usuarios_vencidos WHERE nome LIKE ? AND cpf LIKE ?";
+        
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+
+        stmt.setString(1, "%" + nome + "%");
+        stmt.setString(2, "%" + cpf + "%");
+
+        ResultSet rs = stmt.executeQuery();
+        List<Usuario> lista = new ArrayList<Usuario>();
+
+        while (rs.next()) {
+            Usuario temp = new Usuario();
+            temp.setId(rs.getLong("id"));
+            temp.setNome(rs.getString("nome"));
+            temp.setEmail(rs.getString("email"));
+            temp.setCpf(rs.getString("cpf"));
+            temp.setTelefone(rs.getString("telefone"));
+            lista.add(temp);
+        }
+
+        rs.close();
+        stmt.close();
+        return lista;
+    }
+
     public List<Usuario> getListaUsuarioVencido() throws SQLException {
-        String sql = "SELECT * FROM v_emprestimos_vencidos";
+        String sql = "SELECT * FROM v_usuarios_vencidos";
         
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
 
