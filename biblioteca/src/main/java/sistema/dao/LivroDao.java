@@ -114,8 +114,34 @@ public class LivroDao {
         return lista;
     }
 
+    public List<Livro> getListaLivroAtivo() throws SQLException {
+        String sql = "SELECT * FROM v_livro_ativo ORDER BY titulo";
+        
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+
+        ResultSet rs = stmt.executeQuery();
+        List<Livro> lista = new ArrayList<Livro>();
+
+        while (rs.next()) {
+            Livro temp = new Livro();
+            temp.setId(rs.getLong("id"));
+            temp.setTitulo(rs.getString("titulo"));
+            temp.setAutor(rs.getString("autor"));
+            temp.setEditora(rs.getString("editora"));
+            temp.setGenero(rs.getString("genero"));
+            temp.setAno(rs.getInt("ano"));
+            temp.setIsbn(rs.getString("isbn"));
+            temp.setCodigo(rs.getString("codigo"));
+            lista.add(temp);
+        }
+
+        rs.close();
+        stmt.close();
+        return lista;
+    }
+
     public List<Livro> getListaLivroDisponiveis() throws SQLException {
-        String sql = "SELECT * FROM v_livros_disponiveis";
+        String sql = "SELECT * FROM v_livros_disponiveis ORDER BY titulo";
         
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
@@ -140,7 +166,7 @@ public class LivroDao {
     }
 
     public List<Livro> getListaLivroDisponiveis(String titulo, String codigo) throws SQLException {
-        String sql = "SELECT * FROM v_livros_disponiveis WHERE titulo LIKE ? AND codigo LIKE ?";
+        String sql = "SELECT * FROM v_livros_disponiveis WHERE titulo LIKE ? AND codigo LIKE ? ORDER BY titulo";
         
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
 

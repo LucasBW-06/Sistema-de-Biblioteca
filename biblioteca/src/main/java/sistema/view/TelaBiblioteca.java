@@ -5,10 +5,10 @@ import javax.swing.table.DefaultTableModel;
 
 import sistema.dao.LivroDao;
 import sistema.model.Livro;
+import sistema.view.usuario.TelaUsuario;
 
 import java.awt.*;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,15 +22,15 @@ public class TelaBiblioteca extends JFrame {
         JPanel painel = new JPanel(new BorderLayout(10, 10));
 
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        JButton btnCadastrarUsuario = new JButton("Cadastrar Usuário");
+        JButton btnTelaUsuario = new JButton("Usuários");
         JButton btnRegistrarLivro = new JButton("Registrar Livro");
         JButton btnEmprestarLivro = new JButton("Emprestar Livro");
 
-        btnCadastrarUsuario.addActionListener(e -> cadastrarUsuario());
+        btnTelaUsuario.addActionListener(e -> telaUsuario());
         btnRegistrarLivro.addActionListener(e -> registrarLivro());
         btnEmprestarLivro.addActionListener(e -> registrarEmprestimo());
 
-        painelBotoes.add(btnCadastrarUsuario);
+        painelBotoes.add(btnTelaUsuario);
         painelBotoes.add(btnRegistrarLivro);
         painelBotoes.add(btnEmprestarLivro);
 
@@ -55,10 +55,10 @@ public class TelaBiblioteca extends JFrame {
         add(painel);
     }
 
-    public void cadastrarUsuario() {
+    public void telaUsuario() {
         try {
-            new CadastrarUsuario().setVisible(true);
-        } catch (SQLException | ParseException e1) {
+            new TelaUsuario().setVisible(true);
+        } catch (SQLException e1) {
             e1.printStackTrace();
         }
         dispose();

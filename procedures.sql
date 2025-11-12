@@ -49,3 +49,33 @@ CREATE PROCEDURE p_registrar_devolucao(
 			WHERE livro_id = p_livro_id AND (estado = "EMPRESTADO" OR estado = "ATRASADO");
 	END $$
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE p_softdelete_livro(
+		IN p_livro_id INT
+	)
+	BEGIN
+		UPDATE livro SET ativo = FALSE
+			WHERE id = p_livro_id;
+	END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE p_softdelete_usuario(
+		IN p_usuario_id INT
+	)
+	BEGIN
+		UPDATE usuario SET ativo = FALSE
+			WHERE id = p_usuario_id;
+	END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE p_softdelete_emprestimo(
+		IN p_emprestimo_id INT
+	)
+	BEGIN
+		UPDATE emprestimo SET ativo = FALSE
+			WHERE id = p_emprestimo_id;
+	END $$
+DELIMITER ;

@@ -11,7 +11,8 @@ CREATE TABLE livro (
     genero VARCHAR(50),
     ano INT,
     isbn VARCHAR(13),
-    codigo VARCHAR(20) UNIQUE NOT NULL
+    codigo VARCHAR(20) UNIQUE NOT NULL,
+    ativo BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE usuario (
@@ -19,7 +20,8 @@ CREATE TABLE usuario (
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     cpf VARCHAR(11) NOT NULL,
-    telefone VARCHAR(11)
+    telefone VARCHAR(11),
+    ativo BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE emprestimo (
@@ -31,7 +33,8 @@ CREATE TABLE emprestimo (
     data_emprestimo DATE NOT NULL,
     data_devolucao DATE NOT NULL,
     data_devolvido DATE,
-    estado ENUM("EMPRESTADO", "DEVOLVIDO", "ATRASADO") DEFAULT "EMPRESTADO"
+    estado ENUM("EMPRESTADO", "DEVOLVIDO", "ATRASADO") DEFAULT "EMPRESTADO",
+    ativo BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE funcionario (
@@ -39,5 +42,6 @@ CREATE TABLE funcionario (
     nome VARCHAR(255) NOT NULL,
     cargo VARCHAR(150) NOT NULL,
     login VARCHAR(255) UNIQUE NOT NULL,
-    senha VARCHAR(255) NOT NULL
+    senha VARCHAR(255) NOT NULL,
+    ativo BOOLEAN NOT NULL DEFAULT TRUE
 )

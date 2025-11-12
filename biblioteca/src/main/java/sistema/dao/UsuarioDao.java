@@ -52,12 +52,10 @@ public class UsuarioDao {
         return lista;
     }
 
-    public List<Usuario> getListaUsuario(String nome) throws SQLException {
-        String sql = "SELECT * FROM usuario WHERE nome LIKE ?";
+    public List<Usuario> getListaUsuarioAtivo() throws SQLException {
+        String sql = "SELECT * FROM v_usuario_ativo ORDER BY nome";
         
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
-
-        stmt.setString(1, "%" + nome + "%");
 
         ResultSet rs = stmt.executeQuery();
         List<Usuario> lista = new ArrayList<Usuario>();
@@ -77,13 +75,10 @@ public class UsuarioDao {
         return lista;
     }
 
-    public List<Usuario> getListaUsuario(String nome, String cpf) throws SQLException {
-        String sql = "SELECT * FROM usuario WHERE nome LIKE ? AND cpf LIKE ?";
+    public List<Usuario> getListaUsuarioPermitido() throws SQLException {
+        String sql = "SELECT * FROM v_usuarios_permitido ORDER BY nome";
         
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
-
-        stmt.setString(1, "%" + nome + "%");
-        stmt.setString(2, "%" + cpf + "%");
 
         ResultSet rs = stmt.executeQuery();
         List<Usuario> lista = new ArrayList<Usuario>();
@@ -103,8 +98,8 @@ public class UsuarioDao {
         return lista;
     }
 
-    public List<Usuario> getListaUsuarioVencido(String nome, String cpf) throws SQLException {
-        String sql = "SELECT * FROM v_usuarios_vencidos WHERE nome LIKE ? AND cpf LIKE ?";
+    public List<Usuario> getListaUsuarioPermitido(String nome, String cpf) throws SQLException {
+        String sql = "SELECT * FROM v_usuarios_permitido WHERE nome LIKE ? AND cpf LIKE ? ORDER BY nome";
         
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
 
@@ -130,7 +125,7 @@ public class UsuarioDao {
     }
 
     public List<Usuario> getListaUsuarioVencido() throws SQLException {
-        String sql = "SELECT * FROM v_usuarios_vencidos";
+        String sql = "SELECT * FROM v_usuarios_vencido";
         
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
 
@@ -170,6 +165,17 @@ public class UsuarioDao {
     public void removerUsuario(Usuario usuario) throws SQLException {
         String sql = "DELETE FROM usuario WHERE id=?";
         
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+
+        stmt.setLong(1, usuario.getId());
+
+        stmt.execute();
+        stmt.close();
+    }
+
+    public void softdeleteUsuario(Usuario usuario) throws SQLException {
+        String sql = "CALL p_softdelete_usuario(?)";
+
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
 
         stmt.setLong(1, usuario.getId());

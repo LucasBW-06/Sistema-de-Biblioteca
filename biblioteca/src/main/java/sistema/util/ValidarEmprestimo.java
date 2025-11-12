@@ -18,10 +18,14 @@ public class ValidarEmprestimo {
         }
         List<Livro> livros = new ArrayList<Livro>();
         livros = new LivroDao().getListaLivroDisponiveis();
+        Boolean validade = false;
         for (Livro l : livros) {
             if (l.getId() == e.getLivro().getId()) {
-                throw new IllegalArgumentException("Livro inválido!");
+                validade = true;
             }
+        }
+        if (!validade) {
+            throw new IllegalArgumentException("Livro inválido!");
         }
 
         if (e.getUsuario() == null) {

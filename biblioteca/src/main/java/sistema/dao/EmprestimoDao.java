@@ -88,6 +88,47 @@ public class EmprestimoDao {
         return lista;
     }
 
+    public List<Emprestimo> getHistoricoUsuario(Usuario usuario) throws SQLException {
+        String sql = "SELECT * FROM emprestimo WHERE usuario_id=? ORDER BY data_emprestimo";
+        
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        stmt.setLong(1, usuario.getId());
+
+        ResultSet rs = stmt.executeQuery();
+
+        List<Emprestimo> lista = new ArrayList<Emprestimo>();
+
+        LivroDao livroDao = new LivroDao();
+
+        while (rs.next()) {
+            Emprestimo temp = new Emprestimo();
+            temp.setId(rs.getLong("id"));
+            Livro livroTemp = livroDao.getLivro(rs.getLong("livro_id"));
+            temp.setLivro(livroTemp);
+            temp.setUsuario(usuario);
+
+            if (rs.getDate("data_emprestimo") != null) {
+                temp.setDataEmprestimo(rs.getDate("data_emprestimo").toLocalDate());
+            }
+
+            if (rs.getDate("data_devolucao") != null) {
+                temp.setDataDevolucao(rs.getDate("data_devolucao").toLocalDate());
+            }
+
+            if (rs.getDate("data_devolvido") != null) {
+                temp.setDataDevolucao(rs.getDate("data_devolvido").toLocalDate());
+            }
+
+            temp.setEstado(rs.getString("estado"));
+
+            lista.add(temp);
+        }
+
+        rs.close();
+        stmt.close();
+        return lista;
+    }
+
     public void modificarEmprestimo(Emprestimo emprestimo) throws SQLException {
         String sql = "UPDATE emprestimo SET livro_id=?, usuario_id=?, data_emprestimo=?, data_devolucao=?, data_devolvido=? WHERE id=?";
 

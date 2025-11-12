@@ -171,6 +171,8 @@ public class RegistrarLivro extends JFrame {
 
     public void registrarLivro() {
         try {
+            livro = new Livro();
+
             String titulo = campoTitulo.getText();
             String autor = campoAutor.getText();
             String editora = campoEditora.getText();

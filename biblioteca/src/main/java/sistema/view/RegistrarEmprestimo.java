@@ -12,6 +12,8 @@ import sistema.util.ValidarEmprestimo;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.awt.*;
 
 public class RegistrarEmprestimo extends JFrame {
@@ -169,8 +171,10 @@ public class RegistrarEmprestimo extends JFrame {
 
     private void confirmarEmprestimo() {
         try {
-            LocalDate dataEmprestimo = (LocalDate) campoDataEmprestimo.getValue();
-            LocalDate dataDevolucao = (LocalDate) campoDataDevolucao.getValue();
+            emprestimo = new Emprestimo();
+
+            LocalDate dataEmprestimo = ((Date) campoDataEmprestimo.getValue()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate dataDevolucao = ((Date) campoDataDevolucao.getValue()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
             emprestimo.setLivro(livro);
             emprestimo.setUsuario(usuario);

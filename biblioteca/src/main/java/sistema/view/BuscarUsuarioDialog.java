@@ -82,7 +82,10 @@ public class BuscarUsuarioDialog extends Dialog {
         try {
             String nome = campoNome.getText();
             String cpf = campoCpf.getText().replaceAll("[\\.\\-]", "");
-            List<Usuario> usuarios = new UsuarioDao().getListaUsuarioVencido(nome, cpf);
+            List<Usuario> usuarios = new UsuarioDao().getListaUsuarioPermitido(nome, cpf);
+
+            System.out.println(nome);
+            System.out.println(cpf);
 
             DefaultTableModel model = (DefaultTableModel) tabela.getModel();
             model.setRowCount(0);
