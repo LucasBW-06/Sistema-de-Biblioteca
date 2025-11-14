@@ -1,16 +1,12 @@
 package sistema.view;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
-import sistema.dao.LivroDao;
-import sistema.model.Livro;
+import sistema.view.livro.TelaLivro;
 import sistema.view.usuario.TelaUsuario;
 
 import java.awt.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TelaBiblioteca extends JFrame {
     public TelaBiblioteca() throws SQLException {
@@ -23,34 +19,18 @@ public class TelaBiblioteca extends JFrame {
 
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         JButton btnTelaUsuario = new JButton("Usuários");
-        JButton btnRegistrarLivro = new JButton("Registrar Livro");
+        JButton btnTelaLivro = new JButton("Acervo");
         JButton btnEmprestarLivro = new JButton("Emprestar Livro");
 
         btnTelaUsuario.addActionListener(e -> telaUsuario());
-        btnRegistrarLivro.addActionListener(e -> registrarLivro());
+        btnTelaLivro.addActionListener(e -> telaLivro());
         btnEmprestarLivro.addActionListener(e -> registrarEmprestimo());
 
         painelBotoes.add(btnTelaUsuario);
-        painelBotoes.add(btnRegistrarLivro);
+        painelBotoes.add(btnTelaLivro);
         painelBotoes.add(btnEmprestarLivro);
 
-        LivroDao daoL = new LivroDao();
-        List<Livro> listaLivros = new ArrayList<>();
-        listaLivros = daoL.getListaLivro();
-
-        String[] colunas = {"Título do Livro", "Autor", "Editora"};
-        Object[][] dados = new Object[listaLivros.size()][3];
-        for (int i = 0; i < listaLivros.size(); i++) {
-            dados[i][0] = listaLivros.get(i).getTitulo();
-            dados[i][1] = listaLivros.get(i).getAutor();
-            dados[i][2] = listaLivros.get(i).getEditora();
-        }
-
-        JTable tabela = new JTable(new DefaultTableModel(dados, colunas));
-        JScrollPane scroll = new JScrollPane(tabela);
-
         painel.add(painelBotoes, BorderLayout.NORTH);
-        painel.add(scroll, BorderLayout.CENTER);
 
         add(painel);
     }
@@ -64,9 +44,9 @@ public class TelaBiblioteca extends JFrame {
         dispose();
     }
 
-    public void registrarLivro() {
+    public void telaLivro() {
         try {
-            new RegistrarLivro().setVisible(true);
+            new TelaLivro().setVisible(true);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }

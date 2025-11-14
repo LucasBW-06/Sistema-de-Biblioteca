@@ -223,6 +223,17 @@ public class LivroDao {
         stmt.close();
     }
 
+    public void softdeleteLivro(Livro livro) throws SQLException {
+        String sql = "CALL p_softdelete_livro(?)";
+        
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+
+        stmt.setLong(1, livro.getId());
+
+        stmt.execute();
+        stmt.close();
+    }
+
     public Livro getLivro(long id) throws SQLException {
         String sql = "SELECT * FROM livro WHERE id=?";
 

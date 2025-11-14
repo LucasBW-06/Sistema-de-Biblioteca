@@ -1,8 +1,7 @@
-package sistema.view;
+package sistema.view.livro;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 
 import sistema.dao.LivroDao;
 import sistema.model.Livro;
@@ -10,8 +9,9 @@ import sistema.util.ValidarLivro;
 
 import java.awt.*;
 import java.sql.SQLException;
+import java.text.ParseException;
 
-public class RegistrarLivro extends JFrame {
+public class EditarLivro extends JFrame {
     
     private JTextField campoTitulo;
     private JTextField campoAutor;
@@ -19,137 +19,136 @@ public class RegistrarLivro extends JFrame {
     private JTextField campoGenero;
     private JTextField campoIsbn;
     private JTextField campoCodigo;
-
+    
     private Livro livro;
-
-    public RegistrarLivro() throws SQLException {
-        setTitle("Sistema de Biblioteca - Registrar Livro");
-        setSize(500, 350);
+    
+    public EditarLivro(Livro l) throws SQLException, ParseException {
+        livro = l;
+        setTitle("Sistema de Biblioteca - " + livro.getTitulo());
+        setSize(700, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Painel principal
-        JPanel formPainel = new JPanel(new GridBagLayout());
-        formPainel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        JPanel painel = new JPanel(new GridBagLayout());
+        painel.setBorder(new EmptyBorder(20, 20, 20, 20));
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(8, 8, 8, 8); // espaçamento entre elementos
+        c.insets = new Insets(8, 8, 8, 8);
         c.fill = GridBagConstraints.HORIZONTAL;
 
         Font fonteLabels = new Font("Arial", Font.PLAIN, 14);
         Font fonteCampos = new Font("Arial", Font.PLAIN, 14);
 
-        // Campos de formulário
         JLabel labelTitulo = new JLabel("Título:");
         labelTitulo.setFont(fonteLabels);
-        campoTitulo = new JTextField();
+        JTextField campoTitulo = new JTextField(livro.getTitulo());
         campoTitulo.setFont(fonteCampos);
 
         JLabel labelAutor = new JLabel("Autor:");
         labelAutor.setFont(fonteLabels);
-        campoAutor = new JTextField();
+        JTextField campoAutor = new JTextField(livro.getAutor());
         campoAutor.setFont(fonteCampos);
 
         JLabel labelEditora = new JLabel("Editora:");
         labelEditora.setFont(fonteLabels);
-        campoEditora = new JTextField();
+        JTextField campoEditora = new JTextField(livro.getEditora());
         campoEditora.setFont(fonteCampos);
 
         JLabel labelGenero = new JLabel("Gênero:");
         labelGenero.setFont(fonteLabels);
-        campoGenero = new JTextField();
+        JTextField campoGenero = new JTextField(livro.getGenero());
         campoGenero.setFont(fonteCampos);
 
         JLabel labelIsbn = new JLabel("ISBN:");
         labelIsbn.setFont(fonteLabels);
-        campoIsbn = new JTextField();
+        JTextField campoIsbn = new JTextField(livro.getIsbn());
         campoIsbn.setFont(fonteCampos);
 
         JLabel labelCodigo = new JLabel("Código:");
         labelCodigo.setFont(fonteLabels);
-        campoCodigo = new JTextField();
+        JTextField campoCodigo = new JTextField(livro.getCodigo());
         campoCodigo.setFont(fonteCampos);
 
-        // Botões
-        JButton btnRegistrar = new JButton("Registrar");
-        JButton btnRetornar = new JButton("Retornar");
+        JButton btnSalvar = new JButton("Salvar");
+        JButton btnExcluir = new JButton("Excluir");
+        JButton btnCancelar = new JButton("Cancelar");
 
-        // Linha 1: Título
+        // Linha 1: Titulo
         c.gridx = 0;
         c.gridy = 0;
         c.weightx = 0;
         c.anchor = GridBagConstraints.EAST;
-        formPainel.add(labelTitulo, c);
+        painel.add(labelTitulo, c);
 
         c.gridx = 1;
         c.gridy = 0;
         c.weightx = 1.0;
         c.anchor = GridBagConstraints.WEST;
-        formPainel.add(campoTitulo, c);
+        painel.add(campoTitulo, c);
 
         // Linha 2: Autor
         c.gridx = 0;
         c.gridy = 1;
         c.weightx = 0;
         c.anchor = GridBagConstraints.EAST;
-        formPainel.add(labelAutor, c);
+        painel.add(labelAutor, c);
 
         c.gridx = 1;
         c.gridy = 1;
         c.weightx = 1.0;
         c.anchor = GridBagConstraints.WEST;
-        formPainel.add(campoAutor, c);
+        painel.add(campoAutor, c);
 
         // Linha 3: Editora
         c.gridx = 0;
         c.gridy = 2;
         c.weightx = 0;
         c.anchor = GridBagConstraints.EAST;
-        formPainel.add(labelEditora, c);
+        painel.add(labelEditora, c);
 
         c.gridx = 1;
         c.gridy = 2;
         c.weightx = 1.0;
         c.anchor = GridBagConstraints.WEST;
-        formPainel.add(campoEditora, c);
+        painel.add(campoEditora, c);
 
         // Linha 4: Gênero
         c.gridx = 0;
         c.gridy = 3;
         c.weightx = 0;
         c.anchor = GridBagConstraints.EAST;
-        formPainel.add(labelGenero, c);
+        painel.add(labelGenero, c);
 
         c.gridx = 1;
         c.gridy = 3;
         c.weightx = 1.0;
         c.anchor = GridBagConstraints.WEST;
-        formPainel.add(campoGenero, c);
+        painel.add(campoGenero, c);
 
         // Linha 5: ISBN
         c.gridx = 0;
         c.gridy = 4;
         c.weightx = 0;
         c.anchor = GridBagConstraints.EAST;
-        formPainel.add(labelIsbn, c);
+        painel.add(labelIsbn, c);
 
         c.gridx = 1;
         c.gridy = 4;
         c.weightx = 1.0;
         c.anchor = GridBagConstraints.WEST;
-        formPainel.add(campoIsbn, c);
+        painel.add(campoIsbn, c);
 
         // Linha 6: Código
         c.gridx = 0;
         c.gridy = 5;
         c.weightx = 0;
         c.anchor = GridBagConstraints.EAST;
-        formPainel.add(labelCodigo, c);
+        painel.add(labelCodigo, c);
 
         c.gridx = 1;
         c.gridy = 5;
         c.weightx = 1.0;
         c.anchor = GridBagConstraints.WEST;
-        formPainel.add(campoCodigo, c);
+        painel.add(campoCodigo, c);
 
         // Linha 7: Botões
         c.gridx = 0;
@@ -157,21 +156,27 @@ public class RegistrarLivro extends JFrame {
         c.gridwidth = 2;
         c.anchor = GridBagConstraints.CENTER;
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
-        painelBotoes.add(btnRegistrar);
-        painelBotoes.add(btnRetornar);
-        formPainel.add(painelBotoes, c);
+        painelBotoes.add(btnSalvar);
+        painelBotoes.add(btnExcluir);
+        painelBotoes.add(btnCancelar);
+        painel.add(painelBotoes, c);
 
-        add(formPainel);
+        add(painel);
 
-         // Ações dos botões
-        btnRegistrar.addActionListener(e -> registrarLivro());
+        btnSalvar.addActionListener(e -> { salvarEdicao(); });
 
-        btnRetornar.addActionListener(e -> retornar());
+        btnExcluir.addActionListener(e -> { excluirLivro(); });
+
+        btnCancelar.addActionListener(e -> { try {
+            cancelar();
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+        } });
     }
 
-    public void registrarLivro() {
+    public void salvarEdicao() {
         try {
-            livro = new Livro();
+            Livro l = new Livro();
 
             String titulo = campoTitulo.getText();
             String autor = campoAutor.getText();
@@ -180,20 +185,20 @@ public class RegistrarLivro extends JFrame {
             String isbn = campoIsbn.getText();
             String codigo = campoCodigo.getText();
 
-            livro.setTitulo(titulo);
-            livro.setAutor(autor);
-            livro.setEditora(editora);
-            livro.setGenero(genero);
-            livro.setIsbn(isbn);
-            livro.setCodigo(codigo);
+            l.setTitulo(titulo);
+            l.setAutor(autor);
+            l.setEditora(editora);
+            l.setGenero(genero);
+            l.setIsbn(isbn);
+            l.setCodigo(codigo);
 
-            ValidarLivro.validar(livro);
+            ValidarLivro.validar(l);
 
             LivroDao daoL = new LivroDao();
-            daoL.inserirLivro(livro);
+            daoL.modificarLivro(l);
 
-            JOptionPane.showMessageDialog(this, "Livro registrado com sucesso!");
-            new TelaBiblioteca().setVisible(true);
+            JOptionPane.showMessageDialog(this, "Edição realizada com sucesso!");
+            new TelaLivro().setVisible(true);
             dispose();
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro de validação", JOptionPane.WARNING_MESSAGE);
@@ -202,11 +207,24 @@ public class RegistrarLivro extends JFrame {
         }
     }
 
-    public void retornar() {
+    public void excluirLivro() {
         try {
-            new TelaBiblioteca().setVisible(true);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            LivroDao daoL = new LivroDao();
+            daoL.softdeleteLivro(livro);
+
+            JOptionPane.showMessageDialog(this, "Livro excluido com sucesso!");
+            new TelaLivro().setVisible(true);
+            dispose();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public void cancelar() throws ParseException {
+        try {
+            new VisualizarLivro(livro).setVisible(true);
+        } catch (SQLException e1) {
+            e1.printStackTrace();
         }
         dispose();
     }
