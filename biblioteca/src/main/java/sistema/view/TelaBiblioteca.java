@@ -2,6 +2,7 @@ package sistema.view;
 
 import javax.swing.*;
 
+import sistema.view.emprestimo.TelaEmprestimo;
 import sistema.view.livro.TelaLivro;
 import sistema.view.usuario.TelaUsuario;
 
@@ -20,11 +21,11 @@ public class TelaBiblioteca extends JFrame {
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         JButton btnTelaUsuario = new JButton("Usuários");
         JButton btnTelaLivro = new JButton("Acervo");
-        JButton btnEmprestarLivro = new JButton("Emprestar Livro");
+        JButton btnEmprestarLivro = new JButton("Empréstimos");
 
         btnTelaUsuario.addActionListener(e -> telaUsuario());
         btnTelaLivro.addActionListener(e -> telaLivro());
-        btnEmprestarLivro.addActionListener(e -> registrarEmprestimo());
+        btnEmprestarLivro.addActionListener(e -> telaEmprestimo());
 
         painelBotoes.add(btnTelaUsuario);
         painelBotoes.add(btnTelaLivro);
@@ -53,9 +54,9 @@ public class TelaBiblioteca extends JFrame {
         dispose();
     }
 
-    public void registrarEmprestimo() {
+    public void telaEmprestimo() {
         try {
-            new RegistrarEmprestimo().setVisible(true);
+            new TelaEmprestimo().setVisible(true);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }

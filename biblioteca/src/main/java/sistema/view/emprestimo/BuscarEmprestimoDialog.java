@@ -1,22 +1,26 @@
-package sistema.view;
+package sistema.view.emprestimo;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.List;
-import sistema.model.Livro;
-import sistema.dao.LivroDao;
+import sistema.model.Emprestimo;
+import sistema.dao.EmprestimoDao;
 
-public class BuscarLivroDialog extends JDialog {
+public class BuscarEmprestimoDialog extends JDialog {
 
     private JTable tabela;
     private JTextField campoTitulo;
     private JTextField campoCodigo;
-    private Livro livroSelecionado;
+    private JTextField campoNome;
+    private JTextField campoCpf;
+    private Emprestimo emprestimoSelecionado;
 
-    public BuscarLivroDialog(Frame parent) throws SQLException {
-        super(parent, "Buscar Livro", true);
+    private List<Emprestimo> emprestimosCarregados;
+
+    public BuscarEmprestimoDialog(Frame parent) throws SQLException {
+        super(parent, "Buscar Emprestimo", true);
         setSize(500, 400);
         setLocationRelativeTo(parent);
 
@@ -24,21 +28,28 @@ public class BuscarLivroDialog extends JDialog {
 
         campoTitulo = new JTextField();
         campoCodigo = new JTextField();
+        campoNome = new JTextField();
+        campoCpf = new JTextField();
         JButton btnBuscar = new JButton("Buscar");
 
         JPanel topo = new JPanel(new GridLayout(2, 3, 5, 5));
-        topo.add(new JLabel("Título:"));
+        topo.add(new JLabel("Título do Livro:"));
         topo.add(campoTitulo);
-        topo.add(new JLabel());
 
-        topo.add(new JLabel("Código:"));
+        topo.add(new JLabel("Código do Livro:"));
         topo.add(campoCodigo);
+
+        topo.add(new JLabel("Nome do Usuário:"));
+        topo.add(campoNome);
+
+        topo.add(new JLabel("CPF do Usuário:"));
+        topo.add(campoCpf);
         topo.add(btnBuscar);
 
         painel.add(topo, BorderLayout.NORTH);
 
         tabela = new JTable(new DefaultTableModel(
-            new Object[]{"ID", "Título", "Autor", "Código"}, 0
+            new Object[]{"Título do Livro", "Código do Livro", "Nome do Usuário", "CPF do Usuário"}, 0
         ));
         JScrollPane scroll = new JScrollPane(tabela);
         painel.add(scroll, BorderLayout.CENTER);
@@ -55,38 +66,36 @@ public class BuscarLivroDialog extends JDialog {
 
         btnBuscar.addActionListener(e -> {
             try {
-                carregarLivros();
+                carregarEmprestimos();
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
         });
-        btnSelecionar.addActionListener(e -> {
-            try {
-                selecionarLivro();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-        });
+
+        btnSelecionar.addActionListener(e -> selecionarRegistro());
         btnCancelar.addActionListener(e -> dispose());
 
-        carregarLivros();
+        carregarEmprestimos();
     }
 
-    private void carregarLivros() throws SQLException {
+    private void carregarEmprestimos() throws SQLException {
         try {
             String titulo = campoTitulo.getText();
             String codigo = campoCodigo.getText();
-            List<Livro> livros = new LivroDao().getListaLivroDisponiveis(titulo, codigo);
+            String nome = campoNome.getText();
+            String cpf = campoCpf.getText();
+
+            emprestimosCarregados = new EmprestimoDao().getListaEmprestimoPendente(titulo, codigo, nome, cpf);
 
             DefaultTableModel model = (DefaultTableModel) tabela.getModel();
             model.setRowCount(0);
 
-            for (Livro l : livros) {
+            for (Emprestimo e : emprestimosCarregados) {
                 model.addRow(new Object[]{
-                    l.getId(),
-                    l.getTitulo(),
-                    l.getAutor(),
-                    l.getCodigo()
+                    e.getLivro().getTitulo(),
+                    e.getLivro().getCodigo(),
+                    e.getUsuario().getNome(),
+                    e.getUsuario().getCpf()
                 });
             }
         } catch (SQLException e) {
@@ -94,19 +103,19 @@ public class BuscarLivroDialog extends JDialog {
         }
     }
 
-    private void selecionarLivro() throws SQLException {
+    private void selecionarRegistro() {
         int linha = tabela.getSelectedRow();
         if (linha == -1) {
-            JOptionPane.showMessageDialog(this, "Selecione um livro na tabela.");
-        } else {
-            long id = (long) tabela.getValueAt(linha, 0);
-            livroSelecionado = new LivroDao().getLivro(id);
+            JOptionPane.showMessageDialog(this, "Selecione um empréstimo na tabela.");
+            return;
+        }
 
-            dispose();
-        }  
+        emprestimoSelecionado = emprestimosCarregados.get(linha);
+
+        dispose();
     }
 
-    public Livro getLivroSelecionado() {
-        return livroSelecionado;
+    public Emprestimo getEmprestimoSelecionado() {
+        return emprestimoSelecionado;
     }
 }

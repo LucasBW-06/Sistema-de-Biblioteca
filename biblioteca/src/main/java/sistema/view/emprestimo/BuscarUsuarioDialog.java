@@ -1,4 +1,4 @@
-package sistema.view;
+package sistema.view.emprestimo;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,6 +18,8 @@ public class BuscarUsuarioDialog extends Dialog {
     private JTextField campoNome;
     private JFormattedTextField campoCpf;
     private Usuario usuarioSelecionado;
+
+    private List<Usuario> lista;
 
     public BuscarUsuarioDialog(Frame parent) throws SQLException, ParseException {
         super(parent, "Buscar Usuário", true);
@@ -44,8 +46,9 @@ public class BuscarUsuarioDialog extends Dialog {
         painel.add(topo, BorderLayout.NORTH);
 
         tabela = new JTable(new DefaultTableModel(
-            new Object[]{"ID", "Nome", "CPF"}, 0
+            new Object[]{"Nome", "CPF"}, 0
         ));
+
         JScrollPane scroll = new JScrollPane(tabela);
         painel.add(scroll, BorderLayout.CENTER);
 
@@ -66,13 +69,8 @@ public class BuscarUsuarioDialog extends Dialog {
                 e1.printStackTrace();
             }
         });
-        btnSelecionar.addActionListener(e -> {
-            try {
-                selecionarUsuario();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-        });
+
+        btnSelecionar.addActionListener(e -> selecionarUsuario());
         btnCancelar.addActionListener(e -> dispose());
 
         carregarUsuarios();
@@ -82,17 +80,14 @@ public class BuscarUsuarioDialog extends Dialog {
         try {
             String nome = campoNome.getText();
             String cpf = campoCpf.getText().replaceAll("[\\.\\-]", "");
-            List<Usuario> usuarios = new UsuarioDao().getListaUsuarioPermitido(nome, cpf);
 
-            System.out.println(nome);
-            System.out.println(cpf);
+            lista = new UsuarioDao().getListaUsuarioPermitido(nome, cpf);
 
             DefaultTableModel model = (DefaultTableModel) tabela.getModel();
             model.setRowCount(0);
 
-            for (Usuario u : usuarios) {
+            for (Usuario u : lista) {
                 model.addRow(new Object[]{
-                    u.getId(),
                     u.getNome(),
                     u.getCpf()
                 });
@@ -102,16 +97,16 @@ public class BuscarUsuarioDialog extends Dialog {
         }
     }
 
-    private void selecionarUsuario() throws SQLException {
+    private void selecionarUsuario() {
         int linha = tabela.getSelectedRow();
         if (linha == -1) {
             JOptionPane.showMessageDialog(this, "Selecione um usuário na tabela.");
-        } else {
-            long id = (long) tabela.getValueAt(linha, 0);
-            usuarioSelecionado = new UsuarioDao().getUsuario(id);
-
-            dispose();
+            return;
         }
+
+        usuarioSelecionado = lista.get(linha);
+
+        dispose();
     }
 
     public Usuario getUsuarioSelecionado() {

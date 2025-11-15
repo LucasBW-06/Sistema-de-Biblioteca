@@ -37,7 +37,7 @@ DELIMITER ;
 
 DELIMITER $$
 CREATE PROCEDURE p_registrar_devolucao(
-		IN p_livro_id INT,
+		IN p_emprestimo_id INT,
         IN p_data_devolvido DATE
 	)
 	BEGIN
@@ -45,8 +45,8 @@ CREATE PROCEDURE p_registrar_devolucao(
 			SET p_data_devolvido = CURRENT_DATE;
 		END IF;
     
-		UPDATE emprestimo SET estado = "DEVOLVIDO" AND data_devolvido = p_data_devolvido
-			WHERE livro_id = p_livro_id AND (estado = "EMPRESTADO" OR estado = "ATRASADO");
+		UPDATE emprestimo SET estado = "DEVOLVIDO", data_devolvido = p_data_devolvido
+			WHERE id = p_emprestimo_id;
 	END $$
 DELIMITER ;
 
@@ -71,6 +71,7 @@ CREATE PROCEDURE p_softdelete_usuario(
 DELIMITER ;
 
 DELIMITER $$
+
 CREATE PROCEDURE p_softdelete_emprestimo(
 		IN p_emprestimo_id INT
 	)
