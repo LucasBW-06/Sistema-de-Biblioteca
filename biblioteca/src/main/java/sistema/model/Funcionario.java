@@ -4,6 +4,7 @@ public class Funcionario {
     protected long id;
     protected String nome;
     protected String login;
+    protected String cargo;
     protected String senha;
     
     public void setId(long id) {
@@ -28,6 +29,14 @@ public class Funcionario {
 
     public String getLogin() {
         return login;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
+    public String getCargo() {
+        return cargo;
     }
 
     public void setSenha(String senha) {

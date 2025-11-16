@@ -31,6 +31,10 @@ CREATE VIEW v_emprestimo_ativo AS
 	SELECT * FROM emprestimo e
 		WHERE e.ativo = TRUE;
         
+CREATE VIEW v_funcionario_ativo AS
+	SELECT * FROM funcionario f
+		WHERE f.ativo = TRUE;
+        
 CREATE VIEW v_emprestimos_pendentes AS
 	SELECT * FROM emprestimo e
         WHERE e.estado != "DEVOLVIDO" AND e.ativo = TRUE;

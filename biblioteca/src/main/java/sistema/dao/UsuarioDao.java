@@ -6,8 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import sistema.Conexao;
+
 import sistema.model.Usuario;
+import sistema.util.Conexao;
 
 public class UsuarioDao {
     

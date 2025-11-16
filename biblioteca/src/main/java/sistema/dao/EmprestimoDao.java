@@ -8,10 +8,11 @@ import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import sistema.Conexao;
+
 import sistema.model.Emprestimo;
 import sistema.model.Livro;
 import sistema.model.Usuario;
+import sistema.util.Conexao;
 
 public class EmprestimoDao {
    

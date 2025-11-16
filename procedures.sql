@@ -80,3 +80,14 @@ CREATE PROCEDURE p_softdelete_emprestimo(
 			WHERE id = p_emprestimo_id;
 	END $$
 DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE p_softdelete_funcionario(
+		IN p_funcionario_id INT
+	)
+	BEGIN
+		UPDATE funcionario SET ativo = FALSE
+			WHERE id = p_funcionario_id;
+	END $$
+DELIMITER ;

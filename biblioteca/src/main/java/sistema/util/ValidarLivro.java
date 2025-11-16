@@ -32,10 +32,8 @@ public class ValidarLivro {
         LivroDao daoL = new LivroDao();
         List<Livro> livros = new ArrayList<Livro>();
         livros = daoL.getListaLivro();
-        System.out.println(l.getCodigo());
         Boolean validade = true;
         for (Livro livro : livros) {
-            System.out.println(livro.getCodigo());
             if (l.getCodigo().equals(livro.getCodigo())) {
                 validade = false;
             }
