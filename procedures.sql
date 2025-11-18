@@ -71,7 +71,6 @@ CREATE PROCEDURE p_softdelete_usuario(
 DELIMITER ;
 
 DELIMITER $$
-
 CREATE PROCEDURE p_softdelete_emprestimo(
 		IN p_emprestimo_id INT
 	)
@@ -82,12 +81,19 @@ CREATE PROCEDURE p_softdelete_emprestimo(
 DELIMITER ;
 
 DELIMITER $$
-
 CREATE PROCEDURE p_softdelete_funcionario(
 		IN p_funcionario_id INT
 	)
 	BEGIN
 		UPDATE funcionario SET ativo = FALSE
 			WHERE id = p_funcionario_id;
+	END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE p_atualiza_estado()
+	BEGIN
+		UPDATE emprestimo SET estado = 'ATRASADO'
+			WHERE CURRENT_DATE > data_devolucao;
 	END $$
 DELIMITER ;

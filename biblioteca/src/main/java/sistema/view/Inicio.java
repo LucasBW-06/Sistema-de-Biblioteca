@@ -1,6 +1,9 @@
 package sistema.view;
 
 import javax.swing.*;
+
+import sistema.dao.EmprestimoDao;
+
 import java.awt.*;
 
 import java.sql.SQLException;
@@ -23,6 +26,8 @@ public class Inicio extends JFrame {
 
         btnEntrar.addActionListener(e -> {
             try {
+                EmprestimoDao daoE = new EmprestimoDao();
+                daoE.autalizaEstado();
                 new TelaBiblioteca().setVisible(true);
             } catch (SQLException e1) {
                 e1.printStackTrace();

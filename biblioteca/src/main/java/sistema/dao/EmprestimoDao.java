@@ -247,6 +247,15 @@ public class EmprestimoDao {
         stmt.close();
     }
 
+    public void autalizaEstado() throws SQLException {
+        String sql = "CALL p_atualiza_estado()";
+
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+
+        stmt.execute();
+        stmt.close();
+    }
+
     public void removerEmprestimo(Emprestimo emprestimo) throws SQLException {
         String sql = "DELETE FROM emprestimo WHERE id=?";
         
