@@ -98,16 +98,22 @@ public class TelaFuncionario extends JFrame{
         }
     }
 
-    public void excluirFuncionario(Funcionario f) throws ParseException {
+    public void excluirFuncionario(Funcionario f) throws IllegalArgumentException, ParseException {
         try {
+            if (funcionario.getId() == f.getId()) {
+                throw new IllegalArgumentException("Operação negada!");
+            }
+
             FuncionarioDao daoF = new FuncionarioDao();
             daoF.softdeleteFuncionario(f);
 
             JOptionPane.showMessageDialog(this, "Funcionário excluido com sucesso!");
             new TelaFuncionario(funcionario).setVisible(true);
             dispose();
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro: ", JOptionPane.WARNING_MESSAGE);
         } catch (SQLException e1) {
-            e1.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar: " + e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -160,7 +160,7 @@ public class FuncionarioDao {
     }
 
     public boolean autenticar(String login, String senha) throws SQLException {
-        String sql = "SELECT * FROM funcionario WHERE login=? AND senha=?";
+        String sql = "SELECT * FROM funcionario WHERE login=? AND senha=? AND ativo=TRUE";
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
         stmt.setString(1, login);
         stmt.setString(2, senha);

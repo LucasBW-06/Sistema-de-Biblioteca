@@ -3,6 +3,7 @@ package sistema.view;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import sistema.dao.EmprestimoDao;
 import sistema.dao.FuncionarioDao;
 import sistema.model.Funcionario;
 
@@ -94,6 +95,8 @@ public class Inicio extends JFrame {
                 JOptionPane.showMessageDialog(this, "Login realizado!");
                 Funcionario funcionario = new Funcionario();
                 funcionario = daoF.getFuncionario(login, senha);
+                EmprestimoDao daoE = new EmprestimoDao();
+                daoE.autalizaEstado();
                 new TelaBiblioteca(funcionario).setVisible(true);
                 dispose();
             } else {
