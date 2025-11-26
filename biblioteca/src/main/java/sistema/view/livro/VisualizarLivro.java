@@ -11,14 +11,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import sistema.model.Funcionario;
 import sistema.model.Livro;
 
 public class VisualizarLivro extends JFrame {
     
     private Livro livro;
+    private Funcionario funcionario;
     
-    public VisualizarLivro(Livro l) throws SQLException, ParseException {
+    public VisualizarLivro(Livro l, Funcionario f) throws SQLException, ParseException {
         livro = l;
+        funcionario = f;
         setTitle("Sistema de Biblioteca - " + livro.getTitulo());
         setSize(700, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -173,7 +176,7 @@ public class VisualizarLivro extends JFrame {
 
     public void editarLivro() throws ParseException {
         try {
-            new EditarLivro(livro).setVisible(true);
+            new EditarLivro(livro, funcionario).setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -182,7 +185,7 @@ public class VisualizarLivro extends JFrame {
 
     public void voltar() {
         try {
-            new TelaLivro().setVisible(true);
+            new TelaLivro(funcionario).setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

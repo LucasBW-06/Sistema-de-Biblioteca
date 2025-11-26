@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import sistema.dao.LivroDao;
+import sistema.model.Funcionario;
 import sistema.model.Livro;
 
 import java.awt.*;
@@ -20,9 +21,11 @@ public class EditarLivro extends JFrame {
     private JTextField campoCodigo;
     
     private Livro livro;
+    private Funcionario funcionario;
     
-    public EditarLivro(Livro l) throws SQLException, ParseException {
+    public EditarLivro(Livro l, Funcionario f) throws SQLException, ParseException {
         livro = l;
+        funcionario = f;
         setTitle("Sistema de Biblioteca - " + livro.getTitulo());
         setSize(700, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -197,7 +200,7 @@ public class EditarLivro extends JFrame {
             daoL.modificarLivro(livro);
 
             JOptionPane.showMessageDialog(this, "Edição realizada com sucesso!");
-            new TelaLivro().setVisible(true);
+            new TelaLivro(funcionario).setVisible(true);
             dispose();
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro de validação", JOptionPane.WARNING_MESSAGE);
@@ -212,7 +215,7 @@ public class EditarLivro extends JFrame {
             daoL.softdeleteLivro(livro);
 
             JOptionPane.showMessageDialog(this, "Livro excluido com sucesso!");
-            new TelaLivro().setVisible(true);
+            new TelaLivro(funcionario).setVisible(true);
             dispose();
         } catch (SQLException e1) {
             e1.printStackTrace();
@@ -221,7 +224,7 @@ public class EditarLivro extends JFrame {
 
     public void cancelar() throws ParseException {
         try {
-            new VisualizarLivro(livro).setVisible(true);
+            new VisualizarLivro(livro, funcionario).setVisible(true);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }

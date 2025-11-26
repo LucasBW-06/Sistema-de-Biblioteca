@@ -5,7 +5,8 @@ CREATE PROCEDURE p_registrar_emprestimo(
 		IN p_livro_id INT, 
         IN p_usuario_id INT,
         IN p_data_emprestimo DATE, 
-        IN p_data_devolucao DATE
+        IN p_data_devolucao DATE,
+        OUT p_emprestimo_id INT
 	)
 	BEGIN
         DECLARE v_existe_emprestimo INT;
@@ -32,6 +33,8 @@ CREATE PROCEDURE p_registrar_emprestimo(
 		
 		INSERT INTO emprestimo (livro_id, usuario_id, data_emprestimo, data_devolucao) VALUES
         (p_livro_id, p_usuario_id, p_data_emprestimo, p_data_devolucao);
+        
+        SET p_emprestimo_id = LAST_INSERT_ID();
 	END $$
 DELIMITER ;
 
@@ -96,4 +99,33 @@ CREATE PROCEDURE p_atualiza_estado()
 		UPDATE emprestimo SET estado = 'ATRASADO'
 			WHERE CURRENT_DATE > data_devolucao;
 	END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE p_auditoria_insercao_emprestimo(
+    IN p_emprestimo_id INT,
+    IN p_funcionario_id INT,
+    IN p_funcionario VARCHAR(255)
+)
+BEGIN
+    INSERT INTO auditoria_emprestimos 
+        (emprestimo_id, operacao, realizado_por, funcionario_id)
+    VALUES
+        (p_emprestimo_id, 'INSERÇÃO', p_funcionario, p_funcionario_id);
+END $$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE p_auditoria_update_emprestimo(
+    IN p_emprestimo_id INT,
+    IN p_funcionario_id INT,
+    IN p_funcionario VARCHAR(255)
+)
+BEGIN
+    INSERT INTO auditoria_emprestimos 
+        (emprestimo_id, operacao, realizado_por, funcionario_id)
+    VALUES
+        (p_emprestimo_id, 'ATUALIZAÇÃO', p_funcionario, p_funcionario_id);
+END $$
 DELIMITER ;

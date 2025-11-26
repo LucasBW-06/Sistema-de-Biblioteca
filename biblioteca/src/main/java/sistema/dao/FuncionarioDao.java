@@ -134,4 +134,38 @@ public class FuncionarioDao {
         stmt.close();
         return funcionario;
     }
+
+    public Funcionario getFuncionario(String login, String senha) throws SQLException {
+        String sql = "SELECT * FROM funcionario WHERE login=? AND senha=?";
+
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+
+        stmt.setString(1, login);
+        stmt.setString(2, senha);
+
+        ResultSet rs = stmt.executeQuery();
+        Funcionario funcionario = new Funcionario();
+
+        if (rs.next()) {
+            funcionario.setId(rs.getLong("id"));
+            funcionario.setNome(rs.getString("nome"));
+            funcionario.setCargo(rs.getString("cargo"));
+            funcionario.setLogin(rs.getString("login"));
+            funcionario.setSenha(rs.getString("senha"));
+        }
+
+        rs.close();
+        stmt.close();
+        return funcionario;
+    }
+
+    public boolean autenticar(String login, String senha) throws SQLException {
+        String sql = "SELECT * FROM funcionario WHERE login=? AND senha=?";
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        stmt.setString(1, login);
+        stmt.setString(2, senha);
+
+        ResultSet rs = stmt.executeQuery();
+        return rs.next();
+    }
 }

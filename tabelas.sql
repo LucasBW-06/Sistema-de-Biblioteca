@@ -48,8 +48,12 @@ CREATE TABLE funcionario (
 
 CREATE TABLE auditoria_emprestimos (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    emprestimo_id INT,
+    emprestimo_id INT NOT NULL,
+	FOREIGN KEY (emprestimo_id) REFERENCES emprestimo(id),
+    funcionario_id INT,
+    FOREIGN KEY (funcionario_id) REFERENCES funcionario(id),
     operacao VARCHAR(20),
-    realizado_por VARCHAR(100),
+    realizado_por VARCHAR(255),
     data_hora DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+

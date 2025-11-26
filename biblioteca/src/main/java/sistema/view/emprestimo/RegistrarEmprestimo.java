@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 
 import sistema.dao.EmprestimoDao;
 import sistema.model.Emprestimo;
+import sistema.model.Funcionario;
 import sistema.model.Livro;
 import sistema.model.Usuario;
 
@@ -25,8 +26,10 @@ public class RegistrarEmprestimo extends JFrame {
     private Usuario usuario;
 
     private Emprestimo emprestimo;
+    private Funcionario funcionario;
 
-    public RegistrarEmprestimo() throws SQLException {
+    public RegistrarEmprestimo(Funcionario f) throws SQLException {
+        funcionario = f;
         setTitle("Sistema de Biblioteca - Registrar Empréstimo");
         setSize(500, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -183,10 +186,12 @@ public class RegistrarEmprestimo extends JFrame {
             emprestimo.validar();
 
             EmprestimoDao daoE = new EmprestimoDao();
-            daoE.registrarEmprestimo(emprestimo);
+            emprestimo = daoE.registrarEmprestimo(emprestimo);
+
+            daoE.auditoriaInsercao(funcionario, emprestimo);
 
             JOptionPane.showMessageDialog(this, "Empréstimo registrado com sucesso!");
-            new TelaEmprestimo().setVisible(true);
+            new TelaEmprestimo(funcionario).setVisible(true);
             dispose();
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro de validação", JOptionPane.WARNING_MESSAGE);
@@ -197,7 +202,7 @@ public class RegistrarEmprestimo extends JFrame {
 
     public void cancelar() {
         try {
-            new TelaEmprestimo().setVisible(true);
+            new TelaEmprestimo(funcionario).setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

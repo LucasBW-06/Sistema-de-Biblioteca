@@ -14,15 +14,19 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import sistema.dao.LivroDao;
+import sistema.model.Funcionario;
 import sistema.model.Livro;
 import sistema.view.TelaBiblioteca;
 
 public class TelaLivro extends JFrame{
 
+    private Funcionario funcionario;
+
     private JTable tabela;
     private List<Livro> lista;
 
-    public TelaLivro() throws SQLException {
+    public TelaLivro(Funcionario f) throws SQLException {
+        funcionario = f;
         setTitle("Sistema de Biblioteca - Acervo");
         setSize(500, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,7 +74,7 @@ public class TelaLivro extends JFrame{
 
     public void registrarLivro() {
         try {
-            new RegistrarLivro().setVisible(true);
+            new RegistrarLivro(funcionario).setVisible(true);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
@@ -79,7 +83,7 @@ public class TelaLivro extends JFrame{
 
     public void retornar() {
         try {
-            new TelaBiblioteca().setVisible(true);
+            new TelaBiblioteca(funcionario).setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -98,7 +102,7 @@ public class TelaLivro extends JFrame{
 
     public void visualizarLivro(Livro l) throws ParseException {
         try {
-            new VisualizarLivro(l).setVisible(true);
+            new VisualizarLivro(l, funcionario).setVisible(true);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }

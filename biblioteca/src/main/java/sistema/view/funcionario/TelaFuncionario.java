@@ -21,8 +21,10 @@ public class TelaFuncionario extends JFrame{
 
     private JTable tabela;
     private List<Funcionario> lista;
+    private Funcionario funcionario;
 
-    public TelaFuncionario() throws SQLException {
+    public TelaFuncionario(Funcionario f) throws SQLException {
+        funcionario = f;
         setTitle("Sistema de Biblioteca - Menu de Funcionários");
         setSize(500, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,7 +72,7 @@ public class TelaFuncionario extends JFrame{
 
     public void cadastrarFuncionario() {
         try {
-            new CadastrarFuncionario().setVisible(true);
+            new CadastrarFuncionario(funcionario).setVisible(true);
         } catch (SQLException | ParseException e1) {
             e1.printStackTrace();
         }
@@ -79,7 +81,7 @@ public class TelaFuncionario extends JFrame{
 
     public void retornar() {
         try {
-            new TelaBiblioteca().setVisible(true);
+            new TelaBiblioteca(funcionario).setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -102,7 +104,7 @@ public class TelaFuncionario extends JFrame{
             daoF.softdeleteFuncionario(f);
 
             JOptionPane.showMessageDialog(this, "Funcionário excluido com sucesso!");
-            new TelaFuncionario().setVisible(true);
+            new TelaFuncionario(funcionario).setVisible(true);
             dispose();
         } catch (SQLException e1) {
             e1.printStackTrace();

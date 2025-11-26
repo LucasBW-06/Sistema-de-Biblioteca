@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
 import sistema.dao.UsuarioDao;
+import sistema.model.Funcionario;
 import sistema.model.Usuario;
 
 import java.awt.*;
@@ -19,8 +20,10 @@ public class CadastrarUsuario extends JFrame {
     private JFormattedTextField campoTelefone;
 
     private Usuario usuario;
+    private Funcionario funcionario;
 
-    public CadastrarUsuario() throws SQLException, ParseException {
+    public CadastrarUsuario(Funcionario f) throws SQLException, ParseException {
+        funcionario = f;
         setTitle("Sistema de Biblioteca - Cadastro de Usuário");
         setSize(500, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -155,7 +158,7 @@ public class CadastrarUsuario extends JFrame {
             daoU.inserirUsuario(usuario);
 
             JOptionPane.showMessageDialog(this, "Usuário cadastrado com sucesso!");
-            new TelaUsuario().setVisible(true);
+            new TelaUsuario(funcionario).setVisible(true);
             dispose();
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro de validação", JOptionPane.WARNING_MESSAGE);
@@ -166,7 +169,7 @@ public class CadastrarUsuario extends JFrame {
 
     public void retornar() {
         try {
-            new TelaUsuario().setVisible(true);
+            new TelaUsuario(funcionario).setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

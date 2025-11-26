@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 
 import sistema.dao.EmprestimoDao;
 import sistema.model.Emprestimo;
+import sistema.model.Funcionario;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -19,8 +20,10 @@ public class RegistrarDevolucao extends JFrame {
     private JSpinner campoDataDevolvido;
 
     private Emprestimo emprestimo;
+    private Funcionario funcionario;
 
-    public RegistrarDevolucao() throws SQLException {
+    public RegistrarDevolucao(Funcionario f) throws SQLException {
+        funcionario = f;
         setTitle("Sistema de Biblioteca - Registrar Devolução");
         setSize(500, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -131,9 +134,10 @@ public class RegistrarDevolucao extends JFrame {
 
             EmprestimoDao daoE = new EmprestimoDao();
             daoE.registrarDevolucao(emprestimo, dataDevolvido);
+            daoE.auditoriaUpdate(funcionario, emprestimo);
 
             JOptionPane.showMessageDialog(this, "Devolução registrado com sucesso!");
-            new TelaEmprestimo().setVisible(true);
+            new TelaEmprestimo(funcionario).setVisible(true);
             dispose();
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro de validação", JOptionPane.WARNING_MESSAGE);
@@ -144,7 +148,7 @@ public class RegistrarDevolucao extends JFrame {
 
     public void cancelar() {
         try {
-            new TelaEmprestimo().setVisible(true);
+            new TelaEmprestimo(funcionario).setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

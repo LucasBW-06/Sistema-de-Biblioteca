@@ -14,15 +14,19 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import sistema.dao.UsuarioDao;
+import sistema.model.Funcionario;
 import sistema.model.Usuario;
 import sistema.view.TelaBiblioteca;
 
 public class TelaUsuario extends JFrame{
 
+    private Funcionario funcionario;
+
     private JTable tabela;
     private List<Usuario> lista;
 
-    public TelaUsuario() throws SQLException {
+    public TelaUsuario(Funcionario f) throws SQLException {
+        funcionario = f;
         setTitle("Sistema de Biblioteca - Menu de Usuários");
         setSize(500, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,7 +74,7 @@ public class TelaUsuario extends JFrame{
 
     public void cadastrarUsuario() {
         try {
-            new CadastrarUsuario().setVisible(true);
+            new CadastrarUsuario(funcionario).setVisible(true);
         } catch (SQLException | ParseException e1) {
             e1.printStackTrace();
         }
@@ -79,7 +83,7 @@ public class TelaUsuario extends JFrame{
 
     public void retornar() {
         try {
-            new TelaBiblioteca().setVisible(true);
+            new TelaBiblioteca(funcionario).setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -98,7 +102,7 @@ public class TelaUsuario extends JFrame{
 
     public void visualizarUsuario(Usuario u) throws ParseException {
         try {
-            new VisualizarUsuario(u).setVisible(true);
+            new VisualizarUsuario(u, funcionario).setVisible(true);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }

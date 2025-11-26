@@ -1,5 +1,6 @@
 package sistema.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sistema.model.Emprestimo;
+import sistema.model.Funcionario;
 import sistema.model.Livro;
 import sistema.model.Usuario;
 import sistema.util.Conexao;
@@ -278,10 +280,10 @@ public class EmprestimoDao {
         stmt.close();
     }
 
-    public void registrarEmprestimo(Emprestimo emprestimo) throws SQLException {
-        String sql = "CALL p_registrar_emprestimo(?, ?, ?, ?)";
+    public Emprestimo registrarEmprestimo(Emprestimo emprestimo) throws SQLException {
+        String sql = "CALL p_registrar_emprestimo(?, ?, ?, ?, ?)";
 
-        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        CallableStatement stmt = this.conexao.prepareCall(sql);
         stmt.setLong(1, emprestimo.getLivro().getId());
         stmt.setLong(2, emprestimo.getUsuario().getId());
         if (emprestimo.getDataEmprestimo() != null) {
@@ -296,8 +298,13 @@ public class EmprestimoDao {
             stmt.setNull(4, Types.DATE);
         }
 
+        stmt.registerOutParameter(5, Types.INTEGER);
+
         stmt.execute();
+        emprestimo.setId(stmt.getLong(5));
         stmt.close();
+
+        return emprestimo;
     }
 
     public void registrarDevolucao(Emprestimo emprestimo, LocalDate dataDevolvido)throws SQLException {
@@ -353,5 +360,30 @@ public class EmprestimoDao {
         rs.close();
         stmt.close();
         return emprestimo;
+    }
+
+    public void auditoriaInsercao(Funcionario funcionario, Emprestimo emprestimo) throws SQLException {
+        String sql = "CALL p_auditoria_insercao_emprestimo(?, ?, ?)";
+        System.out.println(emprestimo.getId());
+
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        stmt.setLong(1, emprestimo.getId());
+        stmt.setLong(2, funcionario.getId());
+        stmt.setString(3, funcionario.getLogin());
+
+        stmt.execute();
+        stmt.close();
+    }
+
+    public void auditoriaUpdate(Funcionario funcionario, Emprestimo emprestimo) throws SQLException {
+        String sql = "CALL p_auditoria_update_emprestimo(?, ?, ?)";
+
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        stmt.setLong(1, emprestimo.getId());
+        stmt.setLong(2, funcionario.getId());
+        stmt.setString(3, funcionario.getLogin());
+
+        stmt.execute();
+        stmt.close();
     }
 }

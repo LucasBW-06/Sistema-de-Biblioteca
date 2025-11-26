@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 
 
 import sistema.dao.LivroDao;
+import sistema.model.Funcionario;
 import sistema.model.Livro;
 
 import java.awt.*;
@@ -20,8 +21,10 @@ public class RegistrarLivro extends JFrame {
     private JTextField campoCodigo;
 
     private Livro livro;
+    private Funcionario funcionario;
 
-    public RegistrarLivro() throws SQLException {
+    public RegistrarLivro(Funcionario f) throws SQLException {
+        funcionario = f;
         setTitle("Sistema de Biblioteca - Registrar Livro");
         setSize(500, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -192,7 +195,7 @@ public class RegistrarLivro extends JFrame {
             daoL.inserirLivro(livro);
 
             JOptionPane.showMessageDialog(this, "Livro registrado com sucesso!");
-            new TelaLivro().setVisible(true);
+            new TelaLivro(funcionario).setVisible(true);
             dispose();
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro de validação", JOptionPane.WARNING_MESSAGE);
@@ -203,7 +206,7 @@ public class RegistrarLivro extends JFrame {
 
     public void retornar() {
         try {
-            new TelaLivro().setVisible(true);
+            new TelaLivro(funcionario).setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

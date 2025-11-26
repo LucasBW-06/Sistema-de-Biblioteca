@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
 import sistema.dao.UsuarioDao;
+import sistema.model.Funcionario;
 import sistema.model.Usuario;
 
 import java.awt.*;
@@ -19,9 +20,11 @@ public class EditarUsuario extends JFrame {
     private JFormattedTextField campoTelefone;
     
     private Usuario usuario;
+    private Funcionario funcionario;
     
-    public EditarUsuario(Usuario u) throws SQLException, ParseException {
+    public EditarUsuario(Usuario u, Funcionario f) throws SQLException, ParseException {
         usuario = u;
+        funcionario = f;
         setTitle("Sistema de Biblioteca - " + usuario.getNome());
         setSize(700, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -166,7 +169,7 @@ public class EditarUsuario extends JFrame {
             daoU.modificarUsuario(u);
 
             JOptionPane.showMessageDialog(this, "Edição realizada com sucesso!");
-            new TelaUsuario().setVisible(true);
+            new TelaUsuario(funcionario).setVisible(true);
             dispose();
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro de validação", JOptionPane.WARNING_MESSAGE);
@@ -181,7 +184,7 @@ public class EditarUsuario extends JFrame {
             daoU.softdeleteUsuario(usuario);
 
             JOptionPane.showMessageDialog(this, "Usuário excluido com sucesso!");
-            new TelaUsuario().setVisible(true);
+            new TelaUsuario(funcionario).setVisible(true);
             dispose();
         } catch (SQLException e1) {
             e1.printStackTrace();
@@ -190,7 +193,7 @@ public class EditarUsuario extends JFrame {
 
     public void cancelar() throws ParseException {
         try {
-            new VisualizarUsuario(usuario).setVisible(true);
+            new VisualizarUsuario(usuario, funcionario).setVisible(true);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }

@@ -14,13 +14,16 @@ import javax.swing.border.EmptyBorder;
 
 import sistema.dao.EmprestimoDao;
 import sistema.model.Emprestimo;
+import sistema.model.Funcionario;
 
 public class VisualizarEmprestimo extends JFrame {
     
     private Emprestimo emprestimo;
+    private Funcionario funcionario;
     
-    public VisualizarEmprestimo(Emprestimo em) throws SQLException, ParseException {
+    public VisualizarEmprestimo(Emprestimo em, Funcionario f) throws SQLException, ParseException {
         emprestimo = em;
+        funcionario = f;
         setTitle("Sistema de Biblioteca - " + emprestimo.getId());
         setSize(700, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -182,7 +185,7 @@ public class VisualizarEmprestimo extends JFrame {
             dao.softdeleteEmprestimo(emprestimo);
 
             JOptionPane.showMessageDialog(this, "Empréstimo excluído com sucesso!");
-            new TelaEmprestimo().setVisible(true);
+            new TelaEmprestimo(funcionario).setVisible(true);
             dispose();
 
         } catch (SQLException ex) {
@@ -192,7 +195,7 @@ public class VisualizarEmprestimo extends JFrame {
 
     public void voltar() {
         try {
-            new TelaEmprestimo().setVisible(true);
+            new TelaEmprestimo(funcionario).setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

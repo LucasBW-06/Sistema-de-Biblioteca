@@ -15,14 +15,18 @@ import javax.swing.table.DefaultTableModel;
 
 import sistema.dao.EmprestimoDao;
 import sistema.model.Emprestimo;
+import sistema.model.Funcionario;
 import sistema.view.TelaBiblioteca;
 
 public class TelaEmprestimo extends JFrame{
 
+    private Funcionario funcionario;
+
     private JTable tabela;
     private List<Emprestimo> lista;
 
-    public TelaEmprestimo() throws SQLException {
+    public TelaEmprestimo(Funcionario f) throws SQLException {
+        funcionario = f;
         setTitle("Sistema de Biblioteca - Empréstimos");
         setSize(700, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,7 +78,7 @@ public class TelaEmprestimo extends JFrame{
 
     public void emprestar() {
         try {
-            new RegistrarEmprestimo().setVisible(true);
+            new RegistrarEmprestimo(funcionario).setVisible(true);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
@@ -83,7 +87,7 @@ public class TelaEmprestimo extends JFrame{
 
     public void devolver() {
         try {
-            new RegistrarDevolucao().setVisible(true);
+            new RegistrarDevolucao(funcionario).setVisible(true);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
@@ -92,7 +96,7 @@ public class TelaEmprestimo extends JFrame{
 
     public void retornar() {
         try {
-            new TelaBiblioteca().setVisible(true);
+            new TelaBiblioteca(funcionario).setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -111,7 +115,7 @@ public class TelaEmprestimo extends JFrame{
 
     public void visualizarEmprestimo(Emprestimo e) throws ParseException {
         try {
-            new VisualizarEmprestimo(e).setVisible(true);
+            new VisualizarEmprestimo(e, funcionario).setVisible(true);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }

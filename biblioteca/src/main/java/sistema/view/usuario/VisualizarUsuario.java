@@ -17,14 +17,17 @@ import javax.swing.table.DefaultTableModel;
 
 import sistema.dao.EmprestimoDao;
 import sistema.model.Emprestimo;
+import sistema.model.Funcionario;
 import sistema.model.Usuario;
 
 public class VisualizarUsuario extends JFrame {
     
     private Usuario usuario;
+    private Funcionario funcionario;
     
-    public VisualizarUsuario(Usuario u) throws SQLException, ParseException {
+    public VisualizarUsuario(Usuario u, Funcionario f) throws SQLException, ParseException {
         usuario = u;
+        funcionario = f;
         setTitle("Sistema de Biblioteca - " + usuario.getNome());
         setSize(700, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -164,7 +167,7 @@ public class VisualizarUsuario extends JFrame {
 
     public void editarUsuario() throws ParseException {
         try {
-            new EditarUsuario(usuario).setVisible(true);
+            new EditarUsuario(usuario, funcionario).setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -173,7 +176,7 @@ public class VisualizarUsuario extends JFrame {
 
     public void voltar() {
         try {
-            new TelaUsuario().setVisible(true);
+            new TelaUsuario(funcionario).setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

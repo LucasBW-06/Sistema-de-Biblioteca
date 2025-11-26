@@ -2,6 +2,7 @@ package sistema.view;
 
 import javax.swing.*;
 
+import sistema.model.Funcionario;
 import sistema.view.emprestimo.TelaEmprestimo;
 import sistema.view.livro.TelaLivro;
 import sistema.view.usuario.TelaUsuario;
@@ -12,7 +13,10 @@ import java.sql.SQLException;
 
 public class TelaBiblioteca extends JFrame {
 
-    public TelaBiblioteca() throws SQLException {
+    private Funcionario funcionario;
+
+    public TelaBiblioteca(Funcionario f) throws SQLException {
+        funcionario = f;
         setTitle("Sistema de Biblioteca - Menu Principal");
         setSize(350, 300); // Tela mais estreita
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,7 +62,7 @@ public class TelaBiblioteca extends JFrame {
 
     public void telaUsuario() {
         try {
-            new TelaUsuario().setVisible(true);
+            new TelaUsuario(funcionario).setVisible(true);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
@@ -67,7 +71,7 @@ public class TelaBiblioteca extends JFrame {
 
     public void telaFuncionario() {
         try {
-            new TelaFuncionario().setVisible(true);
+            new TelaFuncionario(funcionario).setVisible(true);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
@@ -76,7 +80,7 @@ public class TelaBiblioteca extends JFrame {
 
     public void telaLivro() {
         try {
-            new TelaLivro().setVisible(true);
+            new TelaLivro(funcionario).setVisible(true);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
@@ -85,7 +89,7 @@ public class TelaBiblioteca extends JFrame {
 
     public void telaEmprestimo() {
         try {
-            new TelaEmprestimo().setVisible(true);
+            new TelaEmprestimo(funcionario).setVisible(true);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }

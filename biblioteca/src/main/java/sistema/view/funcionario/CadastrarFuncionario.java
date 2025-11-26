@@ -18,8 +18,10 @@ public class CadastrarFuncionario extends JFrame {
     private JTextField campoSenha;
 
     private Funcionario funcionario;
+    private Funcionario func;
 
-    public CadastrarFuncionario() throws SQLException, ParseException {
+    public CadastrarFuncionario(Funcionario f) throws SQLException, ParseException {
+        func = f;
         setTitle("Sistema de Biblioteca - Cadastro de Funcionário");
         setSize(500, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -150,7 +152,7 @@ public class CadastrarFuncionario extends JFrame {
             daoF.inserirFuncionario(funcionario);
 
             JOptionPane.showMessageDialog(this, "Funcionário cadastrado com sucesso!");
-            new TelaFuncionario().setVisible(true);
+            new TelaFuncionario(func).setVisible(true);
             dispose();
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro de validação", JOptionPane.WARNING_MESSAGE);
@@ -161,7 +163,7 @@ public class CadastrarFuncionario extends JFrame {
 
     public void retornar() {
         try {
-            new TelaFuncionario().setVisible(true);
+            new TelaFuncionario(func).setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
