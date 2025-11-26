@@ -38,3 +38,8 @@ CREATE VIEW v_funcionario_ativo AS
 CREATE VIEW v_emprestimos_pendentes AS
 	SELECT * FROM emprestimo e
         WHERE e.estado != "DEVOLVIDO" AND e.ativo = TRUE;
+        
+CREATE VIEW v_historico_emprestimos AS
+	SELECT u.id, u.nome, l.titulo, e.data_emprestimo, e.data_devolucao, e.data_devolvido, e.estado FROM emprestimo e
+		JOIN usuario u ON u.id = e.usuario_id
+		JOIN livro l ON l.id = e.livro_id

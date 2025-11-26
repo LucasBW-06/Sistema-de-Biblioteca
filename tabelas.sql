@@ -44,4 +44,12 @@ CREATE TABLE funcionario (
     login VARCHAR(255) UNIQUE NOT NULL,
     senha VARCHAR(255) NOT NULL,
     ativo BOOLEAN NOT NULL DEFAULT TRUE
-)
+);
+
+CREATE TABLE auditoria_emprestimos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    emprestimo_id INT,
+    operacao VARCHAR(20),
+    realizado_por VARCHAR(100),
+    data_hora DATETIME DEFAULT CURRENT_TIMESTAMP
+);

@@ -23,7 +23,7 @@ CREATE PROCEDURE p_registrar_emprestimo(
 		END IF;
         
         SELECT COUNT(*) INTO v_existe_emprestimo FROM emprestimo
-			WHERE livro_id = p_livro_id AND estado = "EMPRESTADO";
+			WHERE livro_id = p_livro_id AND estado IN ("EMPRESTADO", "ATRASADO");
 		
         IF v_existe_emprestimo > 0 THEN
 			SIGNAL SQLSTATE "45000"
