@@ -7,7 +7,6 @@ import sistema.dao.EmprestimoDao;
 import sistema.model.Emprestimo;
 import sistema.model.Livro;
 import sistema.model.Usuario;
-import sistema.util.ValidarEmprestimo;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -181,7 +180,7 @@ public class RegistrarEmprestimo extends JFrame {
             emprestimo.setDataEmprestimo(dataEmprestimo);
             emprestimo.setDataDevolucao(dataDevolucao);
 
-            ValidarEmprestimo.validar(emprestimo);
+            emprestimo.validar();
 
             EmprestimoDao daoE = new EmprestimoDao();
             daoE.registrarEmprestimo(emprestimo);

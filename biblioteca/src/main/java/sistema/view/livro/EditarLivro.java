@@ -5,7 +5,6 @@ import javax.swing.border.EmptyBorder;
 
 import sistema.dao.LivroDao;
 import sistema.model.Livro;
-import sistema.util.ValidarLivro;
 
 import java.awt.*;
 import java.sql.SQLException;
@@ -40,32 +39,32 @@ public class EditarLivro extends JFrame {
 
         JLabel labelTitulo = new JLabel("Título:");
         labelTitulo.setFont(fonteLabels);
-        JTextField campoTitulo = new JTextField(livro.getTitulo());
+        campoTitulo = new JTextField(livro.getTitulo());
         campoTitulo.setFont(fonteCampos);
 
         JLabel labelAutor = new JLabel("Autor:");
         labelAutor.setFont(fonteLabels);
-        JTextField campoAutor = new JTextField(livro.getAutor());
+        campoAutor = new JTextField(livro.getAutor());
         campoAutor.setFont(fonteCampos);
 
         JLabel labelEditora = new JLabel("Editora:");
         labelEditora.setFont(fonteLabels);
-        JTextField campoEditora = new JTextField(livro.getEditora());
+        campoEditora = new JTextField(livro.getEditora());
         campoEditora.setFont(fonteCampos);
 
         JLabel labelGenero = new JLabel("Gênero:");
         labelGenero.setFont(fonteLabels);
-        JTextField campoGenero = new JTextField(livro.getGenero());
+        campoGenero = new JTextField(livro.getGenero());
         campoGenero.setFont(fonteCampos);
 
         JLabel labelIsbn = new JLabel("ISBN:");
         labelIsbn.setFont(fonteLabels);
-        JTextField campoIsbn = new JTextField(livro.getIsbn());
+        campoIsbn = new JTextField(livro.getIsbn());
         campoIsbn.setFont(fonteCampos);
 
         JLabel labelCodigo = new JLabel("Código:");
         labelCodigo.setFont(fonteLabels);
-        JTextField campoCodigo = new JTextField(livro.getCodigo());
+        campoCodigo = new JTextField(livro.getCodigo());
         campoCodigo.setFont(fonteCampos);
 
         JButton btnSalvar = new JButton("Salvar");
@@ -176,8 +175,6 @@ public class EditarLivro extends JFrame {
 
     public void salvarEdicao() {
         try {
-            Livro l = new Livro();
-
             String titulo = campoTitulo.getText();
             String autor = campoAutor.getText();
             String editora = campoEditora.getText();
@@ -185,17 +182,19 @@ public class EditarLivro extends JFrame {
             String isbn = campoIsbn.getText();
             String codigo = campoCodigo.getText();
 
-            l.setTitulo(titulo);
-            l.setAutor(autor);
-            l.setEditora(editora);
-            l.setGenero(genero);
-            l.setIsbn(isbn);
-            l.setCodigo(codigo);
+            livro.setTitulo(titulo);
+            livro.setAutor(autor);
+            livro.setEditora(editora);
+            livro.setGenero(genero);
+            livro.setIsbn(isbn);
+            livro.setCodigo(codigo);
 
-            ValidarLivro.validar(l);
+            livro.validar();
+
+            
 
             LivroDao daoL = new LivroDao();
-            daoL.modificarLivro(l);
+            daoL.modificarLivro(livro);
 
             JOptionPane.showMessageDialog(this, "Edição realizada com sucesso!");
             new TelaLivro().setVisible(true);

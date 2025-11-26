@@ -5,7 +5,6 @@ import javax.swing.border.EmptyBorder;
 
 import sistema.dao.FuncionarioDao;
 import sistema.model.Funcionario;
-import sistema.util.ValidarFuncionario;
 
 import java.awt.*;
 import java.sql.SQLException;
@@ -145,7 +144,7 @@ public class CadastrarFuncionario extends JFrame {
             funcionario.setLogin(login);
             funcionario.setSenha(senha);
 
-            ValidarFuncionario.validar(funcionario);
+            funcionario.validar();
 
             FuncionarioDao daoF = new FuncionarioDao();
             daoF.inserirFuncionario(funcionario);

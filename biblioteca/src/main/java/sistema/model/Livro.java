@@ -1,5 +1,11 @@
 package sistema.model;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import sistema.dao.LivroDao;
+
 public class Livro {
     protected long id;
     protected String titulo;
@@ -72,5 +78,42 @@ public class Livro {
 
     public String getCodigo() {
         return codigo;
+    }
+
+    public void validar() throws IllegalArgumentException, SQLException {
+        if (this.getTitulo() == null || this.getTitulo().isEmpty()) {
+            throw new IllegalArgumentException("Título inválido!");
+        }
+
+        if (this.getAutor() == null || this.getAutor().isEmpty()) {
+            throw new IllegalArgumentException("Autor inválido!");
+        }
+
+        if (this.getEditora() == null || this.getEditora().isEmpty()) {
+            throw new IllegalArgumentException("Editora inválido!");
+        }
+
+        if (this.getGenero() == null || this.getGenero().isEmpty()) {
+            throw new IllegalArgumentException("Gênero inválido!");
+        }
+
+        if (this.getCodigo() == null || this.getCodigo().isEmpty()) {
+            throw new IllegalArgumentException("Código inválido!");
+        }
+        
+        LivroDao daoL = new LivroDao();
+        List<Livro> livros = new ArrayList<Livro>();
+        livros = daoL.getListaLivro();
+        System.out.println(livros);
+        Boolean validade = true;
+        for (Livro livro : livros) {
+            if (this.getCodigo().equals(livro.getCodigo()) && this.getId() != livro.getId()) {
+                validade = false;
+            }
+        }
+        
+        if (!validade) {
+            throw new IllegalArgumentException("Código já registrado!");
+        }
     }
 }

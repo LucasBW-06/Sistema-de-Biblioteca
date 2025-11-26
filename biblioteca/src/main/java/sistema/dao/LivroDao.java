@@ -207,7 +207,7 @@ public class LivroDao {
         stmt.setInt(5, livro.getAno());
         stmt.setString(6, livro.getIsbn());
         stmt.setString(7, livro.getCodigo());
-        stmt.setLong(9, livro.getId());
+        stmt.setLong(8, livro.getId());
 
         stmt.execute();
         stmt.close();

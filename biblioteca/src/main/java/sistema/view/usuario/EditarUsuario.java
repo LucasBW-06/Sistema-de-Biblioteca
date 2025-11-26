@@ -6,7 +6,6 @@ import javax.swing.text.MaskFormatter;
 
 import sistema.dao.UsuarioDao;
 import sistema.model.Usuario;
-import sistema.util.ValidarUsuario;
 
 import java.awt.*;
 import java.sql.SQLException;
@@ -161,7 +160,7 @@ public class EditarUsuario extends JFrame {
             u.setEmail(email);
             u.setTelefone(telefone);
 
-            ValidarUsuario.validar(u);
+            u.validar();
 
             UsuarioDao daoU = new UsuarioDao();
             daoU.modificarUsuario(u);

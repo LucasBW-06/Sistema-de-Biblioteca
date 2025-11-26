@@ -6,7 +6,6 @@ import javax.swing.border.EmptyBorder;
 
 import sistema.dao.LivroDao;
 import sistema.model.Livro;
-import sistema.util.ValidarLivro;
 
 import java.awt.*;
 import java.sql.SQLException;
@@ -187,7 +186,7 @@ public class RegistrarLivro extends JFrame {
             livro.setIsbn(isbn);
             livro.setCodigo(codigo);
 
-            ValidarLivro.validar(livro);
+            livro.validar();
 
             LivroDao daoL = new LivroDao();
             daoL.inserirLivro(livro);

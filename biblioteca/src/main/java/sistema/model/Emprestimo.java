@@ -1,6 +1,12 @@
 package sistema.model;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import sistema.dao.LivroDao;
+import sistema.dao.UsuarioDao;
 
 public class Emprestimo {
     protected long id;
@@ -65,5 +71,40 @@ public class Emprestimo {
 
     public String getEstado() {
         return estado;
+    }
+
+    public void validar() throws IllegalArgumentException, SQLException {
+        if (this.getLivro() == null) {
+            throw new IllegalArgumentException("Livro inválido!");
+        }
+        List<Livro> livros = new ArrayList<Livro>();
+        livros = new LivroDao().getListaLivroDisponiveis();
+        Boolean validade = false;
+        for (Livro l : livros) {
+            if (l.getId() == this.getLivro().getId()) {
+                validade = true;
+            }
+        }
+        if (!validade) {
+            throw new IllegalArgumentException("Livro inválido!");
+        }
+
+        if (this.getUsuario() == null) {
+            throw new IllegalArgumentException("Usuário inválido!");
+        }
+        List<Usuario> usuarios = new ArrayList<Usuario>();
+        usuarios = new UsuarioDao().getListaUsuarioVencido();
+        for (Usuario u : usuarios) {
+            if (u.getId() == this.getUsuario().getId()) {
+                throw new IllegalArgumentException("Usuário inválido!");
+            }
+        }
+
+        if (this.getDataEmprestimo().isAfter(this.getDataDevolucao())) {
+            throw new IllegalArgumentException("Data de devolução após data de emprestimo!");
+        }
+        if (this.getDataEmprestimo().isEqual(this.getDataDevolucao())) {
+            throw new IllegalArgumentException("Datas de emprestimo e devolução iguais!");
+        }
     }
 }
